@@ -70,10 +70,10 @@ class PostController extends Controller
     {
         $post = Post::findOrFail($id);
 
-        //$this->authorize('post.update', $post);
-        if( Gate::denies('post.update', $post) ){
-            abort(403, 'Não autorizado');
-        }
+        $this->authorize('update', $post);
+        // if( Gate::denies('post.update', $post) ){
+        //     abort(403, 'Não autorizado');
+        // }
 
 
         return view('post.edit',compact('post'));

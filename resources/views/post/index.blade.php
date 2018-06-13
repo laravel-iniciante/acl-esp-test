@@ -8,11 +8,11 @@
 		<h2>{{$post->title}}</h2>
 		<p>{{$post->description}}</p>
 		<b>Autor: {{$post->user->name}}</b> <br>
-		@can('post.update',$post)
+		@can('update',$post)
 			<a href="{{route('post.edit',[$post->id])}}">Editar</a>
 			<hr>
 		@endcan
-    @empty
+    	@empty
 
 		<p>Nenhum post cadastrado</p>
 
