@@ -29,24 +29,23 @@ class User extends Authenticatable
 
     public function roles()
     {
-       $this->belongToMany(\App\Role::class);
+       return $this->belongsToMany(\App\Role::class);
     }
 
-    public function hasPermission($permission->roles)
+    public function hasPermission($permission)
     {
         return $this->hasAnyRoles($permission->roles);
     }
 
     public function hasAnyRoles($roles)
     {
-        if( $is_array($roles) || is_object($roles) ){
+        if( is_array($roles) || is_object($roles) ){
             foreach ($roles as $role) {
-                return $this->roles->contain('name', $role->name);
+                return $this->roles->contains('name', $role->name);
             }
         }
 
-
-        return $this->roles->contain('name', $roles);
+        return $this->roles->contains('name', $roles);
     }
 
 

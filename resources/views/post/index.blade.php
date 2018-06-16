@@ -4,18 +4,15 @@
 <div class="container">
 
     @forelse($posts as $post)
-		
-		<h2>{{$post->title}}</h2>
-		<p>{{$post->description}}</p>
-		<b>Autor: {{$post->user->name}}</b> <br>
-		@can('update',$post)
+		@can('view_post',$post)
+			<h2>{{$post->title}}</h2>
+			<p>{{$post->description}}</p>
+			<b>Autor: {{$post->user->name}}</b> <br>
 			<a href="{{route('post.edit',[$post->id])}}">Editar</a>
-			<hr>
 		@endcan
+			<hr>
     	@empty
-
-		<p>Nenhum post cadastrado</p>
-
+			<p>Nenhum post cadastrado</p>
     @endforelse
 
 </div>
