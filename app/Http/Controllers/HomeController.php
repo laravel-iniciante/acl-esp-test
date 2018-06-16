@@ -25,4 +25,23 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+    public function debug()
+    {
+        $nome = auth()->user()->name;
+        $roles = auth()->user()->roles;
+
+        echo "<h1>{$nome}</h1>";
+        foreach ($roles as $role) {
+            echo $role->name . '<br>';
+
+            $permissions = $role->permissions;
+
+            foreach ($permissions as $permission) {
+                echo '- ' . $permission->name . '<br>';
+            }
+             echo "<hr>";
+        }
+    }
+
 }
