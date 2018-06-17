@@ -19,8 +19,12 @@ Auth::routes();
 
 
 
-Route::group([ 'prefix' => 'admin', 'namespace' => 'Admin'], function(){
+Route::group([ 'prefix' => 'dashboard', 'namespace' => 'Dashboard'], function(){
+    Route::get('/', 'DashboardController@index');
+
     Route::resource('post', 'PostController');
+    Route::resource('permission', 'PermissionController');
+    Route::resource('role', 'RoleController');
 });
 
 

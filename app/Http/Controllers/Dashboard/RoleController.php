@@ -1,21 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Dashboard;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Post;
-use Gate;
+use App\Http\Controllers\Controller;
 
-class PostController extends Controller
+class RoleController extends Controller
 {
-
-
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -23,9 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        // $posts = Post::orderBy('created_at', 'desc')->where('user_id', auth()->user()->id)->paginate(10);
-        $posts = Post::all();
-        return view('post.index', compact('posts'));
+        //
     }
 
     /**
@@ -68,15 +57,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::findOrFail($id);
-
-        $this->authorize('update', $post);
-        // if( Gate::denies('post.update', $post) ){
-        //     abort(403, 'Não autorizado');
-        // }
-
-
-        return view('post.edit',compact('post'));
+        //
     }
 
     /**
