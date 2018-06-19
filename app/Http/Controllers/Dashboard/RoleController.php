@@ -4,9 +4,17 @@ namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Role;
+use Gate;
 
 class RoleController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::orderBy('name', 'asc')->paginate(10);
+        return view('dashboard.role.index', compact('roles'));
     }
 
     /**
@@ -46,7 +55,9 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = Role::find($id);
+        $permissions = $role->permissions()->get();
+        return view('dashboard.role.show', compact('role', 'permissions') );
     }
 
     /**

@@ -24,10 +24,10 @@ class DashboardController extends Controller
         $totalRoles = Role::count();
         $totalPermissions = Permission::count();
 
-        echo 'Usuários:' . $totalUsers . '<br>';
-        echo 'Posts:' . $totalPosts . '<br>';
-        echo 'Roles:' . $totalRoles . '<br>';
-        echo 'Permissions:' . $totalPermissions . '<br>';
+        echo 'Usuários:' . $totalUsers .  ' - <a href="'.route('user.index').'">Ver</a> <br>' ;
+        echo 'Posts:' . $totalPosts . ' - <a href="'.route('post.index').'">Ver</a> <br>' ;
+        echo 'Roles:' . $totalRoles . ' - <a href="'.route('role.index').'">Ver</a> <br>' ;
+        echo 'Permissions:' . $totalPermissions . ' - <a href="'.route('permission.index').'">Ver</a> <br>' ;
 
     }
 

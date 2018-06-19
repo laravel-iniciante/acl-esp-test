@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Permission;
-use Gate;
+use App\User;
 
-class PermissionController extends Controller
+class UserController extends Controller
 {
 
     public function __construct()
@@ -22,8 +21,8 @@ class PermissionController extends Controller
      */
     public function index()
     {
-        $permissions = Permission::orderBy('name', 'asc')->paginate(10);
-        return view('dashboard.permission.index', compact('permissions'));
+        $users = User::orderBy('name', 'asc')->paginate(10);
+        return view('dashboard.user.index', compact('users'));
     }
 
     /**
@@ -55,9 +54,7 @@ class PermissionController extends Controller
      */
     public function show($id)
     {
-        $permission = Permission::find($id);
-        $roles = $permission->roles()->get();
-        return view('dashboard.permission.show', compact('roles', 'permission') );
+        //
     }
 
     /**
