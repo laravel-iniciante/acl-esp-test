@@ -75,8 +75,13 @@
     <div class="container-fluid">
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+
+
+
+asdasda
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
+
               <li class="nav-item">
                 <a class="nav-link active" href="{{route('dashboard')}}">
                   <span data-feather="home"></span>
@@ -84,12 +89,14 @@
                 </a>
               </li>
 
+              @can('view_post')
               <li class="nav-item">
                 <a class="nav-link" href="{{route('post.index')}}">
                   <span data-feather="file"></span>
                   Publicações
                 </a>
               </li>
+              @endcan
 
               <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -97,6 +104,7 @@
                   Products
                 </a>
               </li>
+
               <li class="nav-item">
                 <a class="nav-link" href="{{route('user.index')}}">
                   <span data-feather="users"></span>
