@@ -33,7 +33,8 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        //
+        $permission = new Permission;
+        return view("dashboard.permission.create", compact('permission'));
     }
 
     /**
@@ -44,7 +45,9 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->_validate($request);
+        Permission::create($data);
+        return redirect()->route('permission.index');
     }
 
     /**
@@ -68,7 +71,8 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+        return view("dashboard.permission.edit", compact( 'permission'));
     }
 
     /**
@@ -80,7 +84,11 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+        $data       = $this->_validate($request);
+        $permission->fill($data);
+        $permission->save();
+        return redirect()->route('permission.index');
     }
 
     /**
@@ -91,6 +99,16 @@ class PermissionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+        $permission->delete();
+        return redirect()->route('permission.index');
+    }
+
+    private function _validate(Request $request){
+        $rules = [
+            'name'      => 'required|max:80',
+            'label'     => 'required|max:80',
+        ];
+        return $this->validate($request, $rules );
     }
 }

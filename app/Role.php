@@ -10,4 +10,9 @@ class Role extends Model
     {
     	return $this->belongsToMany(\App\Permission::class);
     }
+
+    protected $fillable = [
+                'name',
+                'label',
+    ];
 }

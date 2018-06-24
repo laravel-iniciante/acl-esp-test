@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Role;
+use App\Permission;
 use Gate;
 
 class RoleController extends Controller
@@ -33,7 +34,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $role = new Role;
+        $permissions = Permission::all();
+        return view("dashboard.role.create", compact('role', 'permissions'));
     }
 
     /**
@@ -44,7 +47,10 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $this->_validate($request);
+        $role = Role::create($data);
+        $role->permissions()->attach( $request->permission );
+        return redirect()->route('role.index');
     }
 
     /**
@@ -68,7 +74,11 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = Role::findOrFail($id);
+        $permissions = Permission::all();
+        $my = $role->permissions()->get();
+
+        return view("dashboard.role.edit", compact( 'role','permissions','my'));
     }
 
     /**
@@ -80,7 +90,12 @@ class RoleController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role = Role::findOrFail($id);
+        $data       = $this->_validate($request);
+        $role->fill($data);
+        $role->save();
+        $role->permissions()->attach( $request->permission );
+        return redirect()->route('role.index');
     }
 
     /**
@@ -91,6 +106,17 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role = Role::findOrFail($id);
+        $role->delete();
+        return redirect()->route('role.index');
     }
+
+    private function _validate(Request $request){
+        $rules = [
+            'name'      => 'required|max:80',
+            'label'     => 'required|max:80',
+        ];
+        return $this->validate($request, $rules );
+    }
+
 }
