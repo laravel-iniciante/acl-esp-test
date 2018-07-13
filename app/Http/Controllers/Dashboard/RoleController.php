@@ -36,7 +36,8 @@ class RoleController extends Controller
     {
         $role = new Role;
         $permissions = Permission::all();
-        return view("dashboard.role.create", compact('role', 'permissions'));
+        $selectedPermissions = [];
+        return view("dashboard.role.create", compact('role', 'permissions', 'selectedPermissions'));
     }
 
     /**
@@ -49,7 +50,7 @@ class RoleController extends Controller
     {
         $data = $this->_validate($request);
         $role = Role::create($data);
-        $role->permissions()->attach( $request->permission );
+        $role->permissions()->sync( $request->permission );
         return redirect()->route('role.index');
     }
 
@@ -76,9 +77,9 @@ class RoleController extends Controller
     {
         $role = Role::findOrFail($id);
         $permissions = Permission::all();
-        $my = $role->permissions()->get();
-
-        return view("dashboard.role.edit", compact( 'role','permissions','my'));
+        $selectedPermissions = $role->permissions()->get()->toArray();
+        $selectedPermissions = array_pluck($selectedPermissions, 'id');
+        return view("dashboard.role.edit", compact( 'role','permissions','selectedPermissions'));
     }
 
     /**
@@ -94,7 +95,7 @@ class RoleController extends Controller
         $data       = $this->_validate($request);
         $role->fill($data);
         $role->save();
-        $role->permissions()->attach( $request->permission );
+        $role->permissions()->sync( $request->permission );
         return redirect()->route('role.index');
     }
 

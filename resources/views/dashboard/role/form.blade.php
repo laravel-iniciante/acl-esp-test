@@ -17,9 +17,11 @@
 	<div class="form-check">
 		<label class="form-check-label">
 
-			<input class="form-check-input" type="checkbox" name="permission[]" value="{{$permission->id}}"
-			{{$role->permissions->has($permission->id)?'checked="checked"':''}}
-	
+			<input class="form-check-input" 
+			type="checkbox" 
+			name="permission[]" 
+			value="{{$permission->id}}"
+			{{in_array($permission->id, @old('permission',$selectedPermissions)  )? ' checked="checked" ':''}}
 			>
 			{{$permission->name}} 
 		</label>
