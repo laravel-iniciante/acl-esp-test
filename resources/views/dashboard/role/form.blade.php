@@ -12,7 +12,7 @@
 </div>
 
 <div class="form-group">
-
+	<label>Permissões do papel</label>
 	@foreach($permissions as $permission)
 	<div class="form-check">
 		<label class="form-check-label">

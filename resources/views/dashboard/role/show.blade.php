@@ -1,14 +1,19 @@
 @extends('dashboard.app')
 
+@section('breadcrumbs')
+	<li class="breadcrumb-item"><a href="{{route('home')}}">Início</a></li>
+	<li class="breadcrumb-item active">	<a href="{{route('role.index')}}">Papéis</a></li>
+	<li class="breadcrumb-item active">	Detalhes</li>
+@endsection
+
 @section('content')
 
-	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-		<h1 class="h2">Role: <b>{{$role->name}}</b></h1>
-	</div>
-
-	<div class="card" style="width: 18rem;">
-		<div class="card-header text-light bg-primary">
-	    	<b>Permissões</b>
+	<div class="card">
+		<div class="card-header">
+	    	<b>Permissões do Papel: <i>{{$role->name}}</i></b>
+			<a href="{{route('role.edit',[$role->id])}}" class="float-right">
+				<span data-feather="edit"></span> editar
+			</a>
 	  	</div>
 		<ul class="list-group list-group-flush">
 			@foreach($permissions as $permission)
@@ -18,3 +23,6 @@
 	</div>
 
 @endsection
+
+
+

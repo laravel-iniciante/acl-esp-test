@@ -17,8 +17,6 @@ Route::get('/', function () {
 
 Auth::routes();
 
-
-
 Route::group([ 'prefix' => 'dashboard', 'namespace' => 'Dashboard'], function(){
     Route::get('/', 'DashboardController@index')->name('dashboard');
     Route::resource('user', 'UserController');
@@ -26,8 +24,6 @@ Route::group([ 'prefix' => 'dashboard', 'namespace' => 'Dashboard'], function(){
     Route::resource('permission', 'PermissionController');
     Route::resource('role', 'RoleController');
 });
-
-
 
 Route::get('/home', 'HomeController@index')->name('home');
 

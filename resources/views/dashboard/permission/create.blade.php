@@ -1,19 +1,28 @@
 @extends('dashboard.app')
 
+@section('breadcrumbs')
+	<li class="breadcrumb-item"><a href="{{route('home')}}">Início</a></li>
+	<li class="breadcrumb-item active">	<a href="{{route('permission.index')}}">Permissões</a></li>
+	<li class="breadcrumb-item active">	Adicionar permissão</li>
+@endsection
+
+
 @section('content')
 
-	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-		<h1 class="h2">Permissões</h1>
-	</div>
-
 	@include('layouts.form.form-errors-message')
+	<form method="POST" action="{{route('permission.store')}}">
+		<div class="card">
+			<div class="card-header bg-transparent"> <b>Nova permissão</b> </div>
+			<div class="card-body">
 
-	    <form method="POST" action="{{route('permission.store')}}">
-	        {{csrf_field()}}
-	        @include('dashboard.permission.form')
-	        <input type="submit" value="Salvar" class="btn btn-default">
-	    </form>
+			    {{csrf_field()}}
+			    @include('dashboard.permission.form')
 
-    </div>
-
+			</div>
+			<div class="card-footer text-right">
+				<a value="Salvar" class="btn btn-link" href="{{route('permission.index')}}">cancelar</a>
+				<input type="submit" value="Salvar" class="btn btn-success">
+			</div>
+	    </div>
+	 </form>	
 @endsection

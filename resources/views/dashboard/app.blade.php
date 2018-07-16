@@ -77,8 +77,6 @@
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
 
 
-
-asdasda
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
 
@@ -142,7 +140,15 @@ asdasda
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10  px-4">
+          @if (trim($__env->yieldContent('breadcrumbs')))
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb bg-transparent">
+              @yield('breadcrumbs')
+            </ol>
+          </nav>
+          @endif
+            
             @yield('content')
         </main>
       </div>

@@ -1,19 +1,38 @@
 @extends('dashboard.app')
 
-@section('content')
+@section('breadcrumbs')
+	<li class="breadcrumb-item"><a href="{{route('home')}}">Início</a></li>
+	<li class="breadcrumb-item active">	<a href="{{route('role.index')}}">Papéis</a></li>
+	<li class="breadcrumb-item active">	Adicionar papel</li>
+@endsection
 
-	<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
-		<h1 class="h2">Role</h1>
-	</div>
+@section('content')
 
 	@include('layouts.form.form-errors-message')
 
-	    <form method="POST" action="{{route('role.store')}}">
-	        {{csrf_field()}}
-	        @include('dashboard.role.form')
-	        <input type="submit" value="Salvar" class="btn btn-default">
-	    </form>
+    <form method="POST" action="{{route('role.store')}}">
 
-    </div>
+		<div class="card">
+			<div class="card-header bg-transparent"> <b>Novo papel</b> </div>
+			<div class="card-body">
+
+			   	{{csrf_field()}}
+        		@include('dashboard.role.form')
+
+			</div>
+			<div class="card-footer text-right">
+				<a value="Salvar" class="btn btn-link" href="{{route('role.index')}}">cancelar</a>
+				<input type="submit" value="Salvar" class="btn btn-success">
+			</div>
+	    </div>
+
+    </form>
+
+
 
 @endsection
+
+
+
+
+
