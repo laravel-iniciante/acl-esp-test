@@ -49,7 +49,6 @@ class UserController extends Controller
             'name'      => 'required',
             'email'     => 'required|email|unique:users,email',
             'password'  => 'required|same:confirm-password',
-            
         ]);
 
         $input = $request->all();
@@ -78,7 +77,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view("dashboard.user.edit", compact( 'user'));
     }
 
     /**
@@ -90,7 +90,25 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $user = User::findOrFail($id);
+
+        $validateRules = [
+            'name'      => 'required',
+            'email'     => 'required|email|unique:users,email,' . $id,
+        ];
+
+        if( $request->password ){
+            $validateRules['password'] = 'required|same:confirm-password';
+        }
+
+        $data = $this->validate($request, $validateRules);
+
+        $user->fill($data);
+        $user->save();
+        $request->session()->flash('success', 'Alterado com sucesso!');
+        return redirect()->route('user.index');
+        
     }
 
     /**

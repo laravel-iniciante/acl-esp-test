@@ -14,7 +14,7 @@
 
 <div class="form-group">
     <label>Senha</label>
-    <input class="form-control {{isValidClass($errors, 'password')}}" type="text" name="password" value="{{old('password', $user->password)}}">
+    <input class="form-control {{isValidClass($errors, 'password')}}" type="text" name="password" value="{{old('password')}}">
 	@include('layouts.form.field-error-message', ['name' => 'password'])
 </div>
 

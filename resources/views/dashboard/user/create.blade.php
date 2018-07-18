@@ -3,7 +3,7 @@
 @section('breadcrumbs')
 	<li class="breadcrumb-item"><a href="{{route('home')}}">Início</a></li>
 	<li class="breadcrumb-item active">	<a href="{{route('user.index')}}">Usuários</a></li>
-	<li class="breadcrumb-item active">	Adicionar permissão</li>
+	<li class="breadcrumb-item active">	Adicionar usuário</li>
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
 
 			</div>
 			<div class="card-footer text-right">
-				<a value="Salvar" class="btn btn-link" href="{{route('user.index')}}">cancelar</a>
+				<a class="btn btn-link" href="{{route('user.index')}}">cancelar</a>
 				<input type="submit" value="Salvar" class="btn btn-success">
 			</div>
 	    </div>

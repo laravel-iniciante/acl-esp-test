@@ -21,7 +21,7 @@
  	
 			</div>
 			<div class="card-footer text-right">
-				<a value="Salvar" class="btn btn-link" href="{{route('role.index')}}">cancelar</a>
+				<a class="btn btn-link" href="{{route('role.index')}}">cancelar</a>
 				<input type="submit" value="Salvar" class="btn btn-success">
 			</div>
 	    </div>

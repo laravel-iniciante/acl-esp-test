@@ -148,6 +148,13 @@
             </ol>
           </nav>
           @endif
+
+            @if (session('success'))
+                <div class="alert alert-success">
+                    {{ session('success') }}
+                </div>
+            @endif
+          
             
             @yield('content')
         </main>
