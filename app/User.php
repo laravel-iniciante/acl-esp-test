@@ -5,9 +5,13 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use App\Traits\SortableTrait;
+
+
 class User extends Authenticatable
 {
     use Notifiable;
+    use SortableTrait;
 
     /**
      * The attributes that are mass assignable.

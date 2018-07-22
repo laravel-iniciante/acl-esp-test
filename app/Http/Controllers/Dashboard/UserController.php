@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+
 use App\User;
 use Hash;
 
@@ -22,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('name', 'asc')->paginate(10);
+        $users = User::sortable(['id','asc'])->paginate(15);
         return view('dashboard.user.index', compact('users'));
     }
 

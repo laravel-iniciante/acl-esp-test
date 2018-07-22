@@ -16,13 +16,23 @@
 			</div>
 		</div>
 
+
 	    <div class="table-responsive">
 	        <table class="table table-striped table-sm">
 	          	<thead>
 					<tr>
 						<th>#</th>
-						<th>Nome</th>
-						<th>Email</th>
+						<th>
+							<a href="{{ link_sort('name') }}">
+								Nome {!! icon_sort('name') !!}
+							</a>
+						</th>
+						<th>
+							<a href="{{ link_sort('email') }}">
+							Email 
+							{!! icon_sort('email') !!}
+							</a>
+						</th>
 						<th width="100">ações</th>
 					</tr>
 	          	</thead>
@@ -56,6 +66,9 @@
 					@endforeach
 				</tbody>
 	        </table>
+
+			{{ $users->appends(\Request::except(['page']))->links() }}
+
 	    </div><!-- /table responsive -->
 	</div><!-- /card -->
 
