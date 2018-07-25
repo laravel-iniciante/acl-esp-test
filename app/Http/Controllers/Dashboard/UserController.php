@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::sortable(['id','asc'])->paginate(15);
+        $users = User::sortable(['id','asc'])->filter()->paginate(15);
         return view('dashboard.user.index', compact('users'));
     }
 
