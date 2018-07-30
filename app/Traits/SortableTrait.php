@@ -9,9 +9,13 @@ use Illuminate\Support\Facades\Input;
 
 trait SortableTrait {
 
+    // Autor Thiago Sobrinho
     public function scopeSortable($query, $default = []) {
         if(Input::has('order_by') && Input::has('order')){
-            return $query->orderBy(Input::get('order_by'), Input::get('order'));
+            if(in_array(Input::get('order_by'), $this->sortable)){
+                return $query->orderBy(Input::get('order_by'), Input::get('order'));
+            }
+            
         } else {
 
             if( $default ){
@@ -20,6 +24,28 @@ trait SortableTrait {
 
             return $query;
         }
+    }
+
+    // Autor Thiago Sobrinho
+    public function scopeAutoCallScopes($query, $configs = []){
+        
+        foreach ($configs as $scopeMethodName => $requestKeyName) {
+
+            $paramValue = \Request::get($requestKeyName);
+
+            if($paramValue){
+                $scopeMethodName = explode('-', $scopeMethodName);
+                $scopeMethodName = array_map("ucfirst", $scopeMethodName);
+                $scopeMethodName = implode('', $scopeMethodName);
+                $scopeMethodName = 'scope'.$scopeMethodName;
+
+                $query = call_user_func( array( $this, $scopeMethodName), $query, $paramValue);                
+            }
+  
+        }
+
+        return $query;
+
     }
  
 }

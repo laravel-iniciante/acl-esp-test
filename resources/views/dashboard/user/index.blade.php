@@ -7,6 +7,47 @@
 
 @section('content')
 
+	<div class="card mb-3">
+		
+		<div class="card-header">
+			<b>Filtros de pesquisa</b>	
+		</div>
+
+		<div class="card-body">
+			<form action="{{url()->current()}}" method="GET">
+
+				<div class="row mb-3">
+
+				    <div class="col">
+				    	<label>Nome</label>
+						<input type="text" class="form-control form-control-sm" name="nome" placeholder="Nome" value="{{\Request::get('nome')}}">
+				    </div>
+
+				    <div class="col">
+				    	<label>E-mail</label>
+						<input type="text" class="form-control form-control-sm" name="email" placeholder="Email" value="{{\Request::get('email')}}">
+				    </div>
+
+				</div>
+
+				<div class="text-right">
+					<a href="{{route('user.index')}}" class="btn btn-light">Limpar</a>
+					<button class="btn btn-primary" type="submit">Pesquisar</button>						
+				</div>
+
+			</form>
+		</div>
+	</div>
+
+    <form class="delete" action="{{ route('user.destroy', '') }}" method="POST">
+        <input type="hidden" name="_method" value="DELETE">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+      
+        <button type="submit" class="btn btn-sm btn-danger">
+			<span data-feather="trash"></span>
+		</button>
+    </form>
+
 	<div class="card">
 
 		<div class="card-header bg-transparent">
@@ -16,12 +57,14 @@
 			</div>
 		</div>
 
-
 	    <div class="table-responsive">
-	        <table class="table table-striped table-sm">
+	        <table class="table table-striped table-bordered table-sm">
 	          	<thead>
 					<tr>
-						<th>#</th>
+						<th>
+							<input type="checkbox" name="checkbox[]" id="js-check-all"  value="" />
+						</th>
+						<th>ID</th>
 						<th>
 							<a href="{{ link_sort('name') }}">
 								Nome {!! icon_sort('name') !!}
@@ -39,6 +82,8 @@
 				<tbody>
 					@foreach($users as $user)
 					<tr>
+						<td>
+							<input class="js-delete-checkbox" type="checkbox" name="checkbox[]" value="{{$user->id}}" /> </td>
 						<td>{{$user->id}}</td>
 						<td>
 					 		<a href="{{route('user.show',[$user->id])}}">{{$user->name}}</a>
@@ -51,14 +96,9 @@
 								<span data-feather="edit"></span>
 							</a>
 
-		                    <form class="delete" action="{{ route('user.destroy', $user->id) }}" method="POST" style="display: inline">
-		                        <input type="hidden" name="_method" value="DELETE">
-		                        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-		                      
-		                        <button type="submit" class="btn btn-sm btn-danger">
-									<span data-feather="trash"></span>
-								</button>
-		                    </form>
+							<a href="{{route('user.destroy',[$user->id])}}" class="btn btn-sm btn-danger">
+								<span data-feather="trash"></span>
+							</a>
 
 
 						</td>

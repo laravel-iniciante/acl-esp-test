@@ -33,6 +33,14 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
 
+    /**
+     * Database columns that can be ordered by sortable method
+     *
+     * @var array
+     */
+    protected $sortable = ['name','email'];
+
+
     public function roles()
     {
        return $this->belongsToMany(\App\Role::class);
@@ -50,6 +58,16 @@ class User extends Authenticatable
         }
 
         return $this->roles->contains('name', $roles);
+    }
+
+    // scopes for filter
+    public function scopeName($query, $q)
+    {
+        return $query->where('name', 'like', '%' .$q . '%');
+    }
+    public function scopeEmail($query, $q)
+    {
+        return $query->where('email', 'like',  '%' . $q . '%');
     }
 
 

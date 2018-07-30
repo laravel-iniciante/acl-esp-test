@@ -175,6 +175,34 @@
       feather.replace()
     </script>
 
+    <script type="text/javascript">
+
+        function init(){
+            $("#js-check-all").change(checkAll)
+        }
+
+        function checkAll(){
+            $("input:checkbox").prop('checked', $(this).prop("checked"));
+        }
+
+        function getAllCheckBoxDelete(){
+            var checkbox = [];
+            $(".js-delete-checkbox:checked").each(function(){
+                checkbox.push($(this).val());
+            });
+
+            return checkbox;
+        }
+
+        function groupCheckboxId(){
+            var checkbox = getAllCheckBoxDelete();
+            return checkbox = checkbox.join('-');
+        }
+        
+        $(document).ready(init);
+
+    </script>
+
 
   </body>
 </html>
