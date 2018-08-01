@@ -178,7 +178,9 @@
     <script type="text/javascript">
 
         function init(){
-            $("#js-check-all").change(checkAll)
+            $("#js-check-all").change(checkAll);
+            $(document).on('click','.js-delete-button', deleteItem);
+            $('.js-send-form-delete').on('click',deleteVarious)
         }
 
         function checkAll(){
@@ -199,6 +201,34 @@
             return checkbox = checkbox.join('-');
         }
         
+        function deleteItem(e){
+            e.preventDefault();
+            var url = $(this).attr('href');
+            sendForm(url)
+        }
+
+        function deleteVarious(e){
+            e.preventDefault();
+
+            var stringIds = groupCheckboxId();
+
+            if( stringIds == '' ){
+                return false;
+            }
+
+            var actionUrl = $('.js-form-delete').attr('action');
+
+            actionUrl += '/' + stringIds;
+            sendForm(actionUrl)
+        }
+
+        function sendForm(url){
+            console.log(url)
+            $('.js-form-delete').attr('action', url).submit();
+        }
+
+
+
         $(document).ready(init);
 
     </script>

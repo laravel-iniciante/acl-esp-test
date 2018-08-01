@@ -39,11 +39,11 @@
 		</div>
 	</div>
 
-    <form class="delete" action="{{ route('user.destroy', '') }}" method="POST">
+    <form class="js-form-delete" action="{{ route('user.destroy', '') }}" method="POST">
         <input type="hidden" name="_method" value="DELETE">
         <input type="hidden" name="_token" value="{{ csrf_token() }}" />
       
-        <button type="submit" class="btn btn-sm btn-danger">
+        <button type="submit" class="btn btn-sm btn-danger js-send-form-delete">
 			<span data-feather="trash"></span>
 		</button>
     </form>
@@ -96,10 +96,9 @@
 								<span data-feather="edit"></span>
 							</a>
 
-							<a href="{{route('user.destroy',[$user->id])}}" class="btn btn-sm btn-danger">
+							<a href="{{route('user.destroy',[$user->id])}}" class="btn btn-sm btn-danger js-delete-button">
 								<span data-feather="trash"></span>
 							</a>
-
 
 						</td>
 					</tr>
