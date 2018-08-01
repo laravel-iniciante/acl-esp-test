@@ -1,70 +1,48 @@
 @extends('dashboard.app')
 
-@section('breadcrumbs')
-	<li class="breadcrumb-item"><a href="{{route('home')}}">Início</a></li>
-	<li class="breadcrumb-item active">	Usuários</li>
-@endsection
-
 @section('content')
 
-	<div class="card mb-3">
-		
-		<div class="card-header">
-			<b>Filtros de pesquisa</b>	
+	<div class="row">
+		<div class="col">
+			<h1 class="h3 mt-2">Usuários</h1>
 		</div>
-
-		<div class="card-body">
-			<form action="{{url()->current()}}" method="GET">
-
-				<div class="row mb-3">
-
-				    <div class="col">
-				    	<label>Nome</label>
-						<input type="text" class="form-control form-control-sm" name="nome" placeholder="Nome" value="{{\Request::get('nome')}}">
-				    </div>
-
-				    <div class="col">
-				    	<label>E-mail</label>
-						<input type="text" class="form-control form-control-sm" name="email" placeholder="Email" value="{{\Request::get('email')}}">
-				    </div>
-
-				</div>
-
-				<div class="text-right">
-					<a href="{{route('user.index')}}" class="btn btn-light">Limpar</a>
-					<button class="btn btn-primary" type="submit">Pesquisar</button>						
-				</div>
-
-			</form>
+		<div class="col">
+			<a class="btn btn-primary float-right  mt-3" href="{{route('user.create')}}">Adicionar usuário</a>
 		</div>
 	</div>
 
-    <form class="js-form-delete" action="{{ route('user.destroy', '') }}" method="POST">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
-      
-        <button type="submit" class="btn btn-sm btn-danger js-send-form-delete">
-			<span data-feather="trash"></span>
-		</button>
-    </form>
+	<div class="mb-sm-2">
+	    <form class="js-form-delete d-inline-block" action="{{ route('user.destroy', '') }}" method="POST">
+	        <input type="hidden" name="_method" value="DELETE">
+	        <input type="hidden" name="_token" value="{{ csrf_token() }}" />
+
+	        <button type="submit" class="btn btn-sm btn-danger js-send-form-delete">
+				<span data-feather="trash"></span>
+			</button>
+	    </form>
+
+		<div class="d-inline-block">
+		    <form class="form-inline" action="{{url()->current()}}" method="GET">
+		        <input type="text" name="nome" placeholder="Nome" 	value="{{\Request::get('nome')}}" 	class="form-control form-control-sm mr-sm-2" />
+		        <input type="text" name="email" placeholder="Email" value="{{\Request::get('email')}}" class="form-control form-control-sm mr-sm-2" />
+
+				<a href="{{route('user.index')}}" class="btn btn-sm btn-default">Limpar</a>
+		        <button type="submit" class="btn btn-sm btn-primary">Pesquisar</button> &nbsp;
+		    </form>
+		</div>
+
+	</div>
 
 	<div class="card">
 
-		<div class="card-header bg-transparent">
-			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center ">
-				<b>Usuários</b>
-				<a class="btn btn-sm btn-outline-primary pull-right" href="{{route('user.create')}}">Novo</a>
-			</div>
-		</div>
-
 	    <div class="table-responsive">
-	        <table class="table table-striped table-bordered table-sm">
-	          	<thead>
+	        <table class="table table-hover table-bordered table-sm">
+	          	<thead class="thead-light">
 					<tr>
-						<th>
+						<th width="30" class="text-center">
 							<input type="checkbox" name="checkbox[]" id="js-check-all"  value="" />
 						</th>
-						<th>ID</th>
+						<th width="50">ID</th>
 						<th>
 							<a href="{{ link_sort('name') }}">
 								Nome {!! icon_sort('name') !!}
@@ -72,7 +50,7 @@
 						</th>
 						<th>
 							<a href="{{ link_sort('email') }}">
-							Email 
+							Email
 							{!! icon_sort('email') !!}
 							</a>
 						</th>
@@ -82,16 +60,16 @@
 				<tbody>
 					@foreach($users as $user)
 					<tr>
-						<td>
+						<td class="text-center">
 							<input class="js-delete-checkbox" type="checkbox" name="checkbox[]" value="{{$user->id}}" /> </td>
 						<td>{{$user->id}}</td>
 						<td>
 					 		<a href="{{route('user.show',[$user->id])}}">{{$user->name}}</a>
 						</td>
 					 	<td>{{$user->email}}</td>
-					 	
+
 					 	<td>
-					 		
+
 							<a href="{{route('user.edit',[$user->id])}}" class="btn btn-sm btn-warning">
 								<span data-feather="edit"></span>
 							</a>
