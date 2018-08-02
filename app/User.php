@@ -63,11 +63,11 @@ class User extends Authenticatable
     // scopes for filter
     public function scopeName($query, $q)
     {
-        return $query->where('name', 'like', '%' .$q . '%');
+        return $query->where('users.name', 'like', '%' .$q . '%');
     }
     public function scopeEmail($query, $q)
     {
-        return $query->where('email', 'like',  '%' . $q . '%');
+        return $query->where('users.email', 'like',  '%' . $q . '%');
     }
 
 

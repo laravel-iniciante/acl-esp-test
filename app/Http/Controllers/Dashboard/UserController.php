@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\User;
+use App\Role;
 use Hash;
 
 class UserController extends Controller
@@ -15,7 +16,7 @@ class UserController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -23,7 +24,17 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::autoCallScopes(['name' => 'nome', 'email' => 'email' ])->sortable(['id','asc'])->filter()->paginate(15);
+        // $users = User::autoCallScopes(['name' => 'nome', 'email' => 'email' ])->sortable(['id','asc'])->filter()->paginate(15);
+        $users = User::
+                autoCallScopes(['name' => 'nome', 'email' => 'email' ])
+                ->sortable(['id','asc'])
+                ->filter()
+                ->select('users.name','users.id','users.email', \DB::raw("group_concat(roles.name SEPARATOR ' - ') as perms"))
+                ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
+                ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
+                ->groupBy('users.id')
+                ->paginate(25);
+
         return view('dashboard.user.index', compact('users'));
     }
 
@@ -35,7 +46,9 @@ class UserController extends Controller
     public function create()
     {
         $user = new User;
-        return view("dashboard.user.create",compact('user'));
+        $roles = Role::orderBy('label', 'asc')->get();
+        $selectedRoles = [];
+        return view("dashboard.user.create", compact('user','roles','selectedRoles'));
     }
 
     /**
@@ -55,6 +68,7 @@ class UserController extends Controller
         $input = $request->all();
         $input['password'] = Hash::make($input['password']);
         $user = User::create($input);
+        $user->roles()->sync( $request->role );
         return redirect()->route('user.index');
 
     }
@@ -79,7 +93,12 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findOrFail($id);
-        return view("dashboard.user.edit", compact( 'user'));
+        $roles = Role::orderBy('label', 'asc')->get();
+
+        $selectedRoles = $user->roles()->get()->toArray();
+        $selectedRoles = array_pluck($selectedRoles, 'id');
+
+        return view("dashboard.user.edit", compact('user','roles','selectedRoles'));
     }
 
     /**
@@ -107,9 +126,10 @@ class UserController extends Controller
 
         $user->fill($data);
         $user->save();
+        $user->roles()->sync( $request->role );
         $request->session()->flash('success', 'Alterado com sucesso!');
         return redirect()->route('user.index');
-        
+
     }
 
     /**
@@ -120,9 +140,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-
         $ids = explode('-', $id);
         User::whereIn('id', $ids)->delete();
+        \Request::session()->flash('success', 'Excluido com sucesso!');
         return redirect()->route('user.index');
     }
 }

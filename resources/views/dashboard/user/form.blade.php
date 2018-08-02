@@ -24,3 +24,20 @@
 	@include('layouts.form.field-error-message', ['name' => 'confirm-password'])
 </div>
 
+<div class="form-group">
+    <label>Papéis do usuário</label>
+    @foreach($roles as $role)
+    <div class="form-check">
+        <label class="form-check-label">
+
+            <input class="form-check-input"
+            type="checkbox"
+            name="role[]"
+            value="{{$role->id}}"
+            {{in_array($role->id, @old('role',$selectedRoles)  )? ' checked="checked" ':''}}
+            >
+            {{$role->label}}
+        </label>
+    </div>
+    @endforeach
+</div>

@@ -36,7 +36,7 @@
 	<div class="card">
 
 	    <div class="table-responsive">
-	        <table class="table table-hover table-bordered table-sm">
+	        <table class="table table-hover table-bordered table-sm mb-0">
 	          	<thead class="thead-light">
 					<tr>
 						<th width="30" class="text-center">
@@ -54,6 +54,7 @@
 							{!! icon_sort('email') !!}
 							</a>
 						</th>
+						<th>Permissões</th>
 						<th width="100">ações</th>
 					</tr>
 	          	</thead>
@@ -67,6 +68,7 @@
 					 		<a href="{{route('user.show',[$user->id])}}">{{$user->name}}</a>
 						</td>
 					 	<td>{{$user->email}}</td>
+					 	<td>{{$user->perms}}</td>
 
 					 	<td>
 
@@ -84,9 +86,14 @@
 				</tbody>
 	        </table>
 
-			{{ $users->appends(\Request::except(['page']))->links() }}
-
 	    </div><!-- /table responsive -->
+
+		@if ($users->total() > $users->perPage())
+		    <div class="pagination-wrapper">
+		        {{ $users->appends(\Request::except(['page']))->links() }}
+		    </div>
+		@endif
+
 	</div><!-- /card -->
 
 @endsection
