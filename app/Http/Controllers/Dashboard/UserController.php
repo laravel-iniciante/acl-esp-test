@@ -29,11 +29,11 @@ class UserController extends Controller
         $users = User::
                 callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role' ])
                 ->sortable(['id','asc'])
-                ->select('users.name','users.id','users.email', \DB::raw("group_concat(roles.label SEPARATOR ' - ') as perms"))
+                ->select('users.name','users.id','users.status', 'users.email', \DB::raw("group_concat(roles.label SEPARATOR ' - ') as perms"))
                 ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
                 ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->groupBy('users.id')
-                ->paginate(2);
+                ->paginate(20);
 
         $roles = Role::orderBy('label', 'asc')->get();
 

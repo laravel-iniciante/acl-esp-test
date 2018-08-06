@@ -5,14 +5,14 @@
 	<h1 class="h3 mt-2">Usuários</h1>
 
 	<div class="card">
-	
+
 		<div class="card-header bg-transparent">
 
 			<a class="btn btn-sm btn-primary float-right" href="{{route('user.create')}}">Adicionar usuário</a>
 
 	    	@include('dashboard.partials.batch-actions.dd-menu',['delete_url' => route('user.destroy', '')])
 	    	@include('dashboard.partials.btn-grid-filter')
-			
+
 			<div class="d-inline-block">
 			    <form class="form-inline" action="{{url()->current()}}" method="GET">
 					<div class="input-group input-group-sm">
@@ -26,15 +26,15 @@
 
 						<div class="input-group-append">
 							<button type="submit" class="btn btn-secondary">
-								<span data-feather="search"></span> 
+								<span data-feather="search"></span>
 							</button>
 						</div>
 					</div>
 			    </form>
-			</div>	
+			</div>
 
-		</div>	
-	
+		</div>
+
 
 		<form class="p-3 bg-light {{ \Request::input('filter') ? '' : 'hidden'}} js-box-filter" action="{{url()->current()}}" method="GET">
 			<p class="h4 font-weight-bold border-bottom">Filtros</p>
@@ -65,7 +65,7 @@
 					        </label>
 					    </div>
 					    @endforeach
-					</div>					
+					</div>
 				</div>
 			</div>
 
@@ -91,6 +91,7 @@
 								Nome {!! icon_sort('name') !!}
 							</a>
 						</th>
+
 						<th>
 							<a href="{{ link_sort('email') }}">
 							Email
@@ -98,6 +99,7 @@
 							</a>
 						</th>
 						<th>Permissões</th>
+						<th>Status </th>
 						<th width="100">ações</th>
 					</tr>
 	          	</thead>
@@ -113,16 +115,19 @@
 					 	<td>{{$user->email}}</td>
 					 	<td>{{$user->perms}}</td>
 
-					 	<td>
+						<td>
+							<button class="btn btn-sm btn-{{ boolenValue($user->status, 'success', 'default' ) }}">
+								{{ boolenValue($user->status, 'Ativo', 'Inativo' ) }}
+							</button>
+						</td>
 
+					 	<td>
 							<a href="{{route('user.edit',[$user->id])}}" class="btn btn-sm btn-warning">
 								<span data-feather="edit"></span>
 							</a>
-
 							<a href="{{route('user.destroy',[$user->id])}}" class="btn btn-sm btn-danger js-delete-button">
 								<span data-feather="trash"></span>
 							</a>
-
 						</td>
 					</tr>
 					@endforeach

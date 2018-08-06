@@ -1,4 +1,4 @@
-<?php 
+<?php
 use Illuminate\Support\Facades\Input;
 
 function isValidClass($errors, $field){
@@ -6,9 +6,9 @@ function isValidClass($errors, $field){
 }
 
 function link_sort($col) {
-        
+
     $parameters = [
-    	'order_by' => $col, 
+    	'order_by' => $col,
     	'order' => (Input::get('order') === 'asc' ? 'desc' : 'asc')
     ];
 
@@ -28,4 +28,9 @@ function icon_sort($col) {
 
 function checkedFilter($needle, $input ){
     return in_array($needle, \Request::input($input,[])  ) ? ' checked="checked" ':'';
+}
+
+
+function boolenValue($value, $true, $false ){
+    return ( $value == 1 ) ? $true : $false ;
 }
