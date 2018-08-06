@@ -33,7 +33,7 @@ class UserController extends Controller
                 ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
                 ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->groupBy('users.id')
-                ->paginate(15);
+                ->paginate(2);
 
         $roles = Role::orderBy('label', 'asc')->get();
 
