@@ -59,7 +59,7 @@
 					            type="checkbox"
 					            name="filter[role][]"
 					            value="{{$role->id}}"
-					            {{in_array($role->id, \Request::input('filter.role',[])  ) ? ' checked="checked" ':''}}
+					            {{!! checkedFilter($role->id, 'filter.role' ) !!}}
 					            >
 					            {{$role->label}}
 					        </label>

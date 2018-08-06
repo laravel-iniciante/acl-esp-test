@@ -15,7 +15,6 @@ function link_sort($col) {
     return route(Route::currentRouteName(), $parameters);
 }
 
-
 function icon_sort($col) {
 
 	$order = '<span data-feather="chevrons-up"></span>';
@@ -27,3 +26,6 @@ function icon_sort($col) {
     return $order;
 }
 
+function checkedFilter($needle, $input ){
+    return in_array($needle, \Request::input($input,[])  ) ? ' checked="checked" ':'';
+}
