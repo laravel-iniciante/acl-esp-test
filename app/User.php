@@ -5,15 +5,14 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use App\Traits\SortableTrait;
-use App\Traits\UserTrait;
+use App\Traits\GridTrait;
+
 
 
 class User extends Authenticatable
 {
     use Notifiable;
-    use SortableTrait;
-    use UserTrait;
+    use GridTrait;
 
     /**
      * The attributes that are mass assignable.
@@ -60,15 +59,22 @@ class User extends Authenticatable
         return $this->roles->contains('name', $roles);
     }
 
+
+
     // scopes for filter
     public function scopeName($query, $q)
     {
         return $query->where('users.name', 'like', '%' .$q . '%');
     }
+
     public function scopeEmail($query, $q)
     {
         return $query->where('users.email', 'like',  '%' . $q . '%');
     }
-
+    
+    public function scopeRoles($query, $q)
+    {
+        return $query->whereIn('role_user.role_id', $q);
+    }
 
 }

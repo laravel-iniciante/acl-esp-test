@@ -7,7 +7,7 @@ namespace App\Traits;
 use Illuminate\Support\Facades\Input;
 
 
-trait SortableTrait {
+trait GridTrait {
 
     // Autor Thiago Sobrinho
     public function scopeSortable($query, $default = []) {
@@ -27,11 +27,11 @@ trait SortableTrait {
     }
 
     // Autor Thiago Sobrinho
-    public function scopeAutoCallScopes($query, $configs = []){
+    public function scopeCallInputScopes($query, $configs = []){
         
         foreach ($configs as $scopeMethodName => $requestKeyName) {
 
-            $paramValue = \Request::get($requestKeyName);
+            $paramValue = \Request::input($requestKeyName);
 
             if($paramValue){
                 $scopeMethodName = explode('-', $scopeMethodName);

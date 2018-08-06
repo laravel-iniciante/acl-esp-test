@@ -24,18 +24,20 @@ class UserController extends Controller
      */
     public function index()
     {
+
         // $users = User::autoCallScopes(['name' => 'nome', 'email' => 'email' ])->sortable(['id','asc'])->filter()->paginate(15);
         $users = User::
-                autoCallScopes(['name' => 'nome', 'email' => 'email' ])
+                callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role' ])
                 ->sortable(['id','asc'])
-                ->filter()
-                ->select('users.name','users.id','users.email', \DB::raw("group_concat(roles.name SEPARATOR ' - ') as perms"))
+                ->select('users.name','users.id','users.email', \DB::raw("group_concat(roles.label SEPARATOR ' - ') as perms"))
                 ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
                 ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->groupBy('users.id')
-                ->paginate(25);
+                ->paginate(15);
 
-        return view('dashboard.user.index', compact('users'));
+        $roles = Role::orderBy('label', 'asc')->get();
+
+        return view('dashboard.user.index', compact('users','roles'));
     }
 
     /**

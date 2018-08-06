@@ -20,6 +20,20 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 
+    <style>
+      .hidden{
+        display: none;
+      }
+      table .thead-light th {
+          color: #495057;
+          background-color: #f5f5f5 !important;
+          border-bottom-color: #007bff !important;
+          border-top-width: 0;
+          border-bottom-width: 1px;
+      }
+
+    </style>
+
   </head>
 
   <body>
@@ -165,9 +179,9 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<!--     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script> -->
 
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
@@ -180,6 +194,7 @@
         function init(){
             $("#js-check-all").change(checkAll);
             $(document).on('click','.js-delete-button', deleteItem);
+            $(document).on('click','.js-btn-toggle-filter', toggleFilter);
             $('.js-send-form-delete').on('click',deleteVarious)
         }
 
@@ -227,6 +242,15 @@
             $('.js-form-delete').attr('action', url).submit();
         }
 
+
+        function toggleFilter(){
+
+          $('.js-btn-toggle-filter').toggleClass('btn-outline-primary');
+          $('.js-btn-toggle-filter').toggleClass('btn-primary');
+
+          $('.js-box-filter').slideToggle();
+
+        }
 
 
         $(document).ready(init);
