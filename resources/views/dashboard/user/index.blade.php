@@ -67,6 +67,11 @@
 					    @endforeach
 					</div>
 				</div>
+				<div class="col">
+					<label>Status</label><br>
+					<label><input type="radio" name="filter[status]" value="0" {!! boolenValue(\Request::input('filter.status'), '', 'checked' ) !!}/> Inativo</label> <br>
+					<label><input type="radio" name="filter[status]" value="1" {!! boolenValue(\Request::input('filter.status'), 'checked', '' ) !!}/>Ativo</label>  <br>
+				</div>
 			</div>
 
 			<div class="text-right">
@@ -108,7 +113,7 @@
 					<tr>
 						<td class="text-center">
 							<input class="js-delete-checkbox" type="checkbox" name="checkbox[]" value="{{$user->id}}" /> </td>
-						<td>{{$user->id}}</td>
+						<td class="text-center">{{$user->id}}</td>
 						<td>
 					 		<a href="{{route('user.show',[$user->id])}}">{{$user->name}}</a>
 						</td>

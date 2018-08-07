@@ -31,6 +31,15 @@ function checkedFilter($needle, $input ){
 }
 
 
-function boolenValue($value, $true, $false ){
-    return ( $value == 1 ) ? $true : $false ;
+function boolenValue($value, $trueValue, $falseValue ){
+
+    $value = (String) $value;
+
+    if( $value === '1' ){
+        return $trueValue;
+    }
+    if( $value === '0' ){
+        return $falseValue;
+    };
+    return false;
 }

@@ -27,7 +27,7 @@ class UserController extends Controller
 
         // $users = User::autoCallScopes(['name' => 'nome', 'email' => 'email' ])->sortable(['id','asc'])->filter()->paginate(15);
         $users = User::
-                callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role' ])
+                callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role', 'status' => 'filter.status' ])
                 ->sortable(['id','asc'])
                 ->select('users.name','users.id','users.status', 'users.email', \DB::raw("group_concat(roles.label SEPARATOR ' - ') as perms"))
                 ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
