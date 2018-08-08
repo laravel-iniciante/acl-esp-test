@@ -82,7 +82,7 @@
 		</form><!-- filter -->
 
 
-
+ - <img src="{{url('storage/image/P3NwxoQkcbfmPJ4aDP6fDyCgkOghtWmrFVdgnlls.jpeg')}}" alt=""> :
 	    <div class="table-responsive">
 	        <table class="table table-hover table-bordered table-sm mb-0">
 	          	<thead class="thead-light">

@@ -9,7 +9,7 @@
 @section('content')
 
 	@include('layouts.form.form-errors-message')
-	<form method="POST" action="{{route('user.update', ['user' => $user->id])}}">
+	<form method="POST" action="{{route('user.update', ['user' => $user->id])}}" enctype="multipart/form-data">
 		<div class="card">
 			<div class="card-header bg-transparent"> <b>Alterar usuário</b> </div>
 			<div class="card-body">

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
+use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\Role;
 use Hash;
@@ -24,8 +24,7 @@ class UserController extends Controller
      */
     public function index()
     {
-
-        // $users = User::autoCallScopes(['name' => 'nome', 'email' => 'email' ])->sortable(['id','asc'])->filter()->paginate(15);
+        // dd( Storage::get('categories/005858201808085b6a6a82ce070.jpeg') );
         $users = User::
                 callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role', 'status' => 'filter.status' ])
                 ->sortable(['id','asc'])
@@ -129,6 +128,20 @@ class UserController extends Controller
         $user->fill($data);
         $user->save();
         $user->roles()->sync( $request->role );
+
+        $nameFile = null;
+
+        if ($request->hasFile('image') && $request->file('image')->isValid()) {
+
+            $name       = uniqid(date('HisYmd'));
+            $extension  = $request->image->extension();
+            $nameFile   = "{$name}.{$extension}";
+            $upload     = $request->image->storeAs('categories', $nameFile);
+
+            dd($upload);
+        }
+
+
         $request->session()->flash('success', 'Alterado com sucesso!');
         return redirect()->route('user.index');
 

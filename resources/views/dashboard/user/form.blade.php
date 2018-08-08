@@ -25,6 +25,11 @@
 </div>
 
 <div class="form-group">
+    <label>Imagem</label>
+    <input type="file" name="image" class="form-control">
+</div>
+
+<div class="form-group">
     <label>Papéis do usuário</label>
     @foreach($roles as $role)
     <div class="form-check">
