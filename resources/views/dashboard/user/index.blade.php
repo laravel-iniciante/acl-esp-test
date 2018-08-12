@@ -2,6 +2,7 @@
 
 @section('content')
 
+
 	<h1 class="h3 mt-2">Usuários</h1>
 
 	<div class="card">
@@ -10,34 +11,31 @@
 
 			<a class="btn btn-sm btn-primary float-right" href="{{route('user.create')}}">Adicionar usuário</a>
 
-	    	@include('dashboard.partials.batch-actions.dd-menu',['delete_url' => route('user.destroy', '')])
-	    	@include('dashboard.partials.btn-grid-filter')
+			@component('components.grid-batch-actions')
 
-			<div class="d-inline-block">
-			    <form class="form-inline" action="{{url()->current()}}" method="GET">
-					<div class="input-group input-group-sm">
-						<div class="input-group-prepend">
-							<div class="input-group-text bg-light border-secondary">
-								<a href="{{route('user.index')}}">Limpar</a>
-							</div>
-						</div>
-						<input type="text" name="filter[email]" placeholder="Email" value="{{\Request::input('filter.email')}}" class="form-control border-secondary form-control-sm" />
-						<input type="text" name="filter[nome]" placeholder="Nome" 	value="{{\Request::input('filter.nome')}}"  class="form-control border-secondary form-control-sm" />
+				@component('components.grid-form-delete', ['action' => route('user.destroy', '')])
+				@endcomponent 
 
-						<div class="input-group-append">
-							<button type="submit" class="btn btn-secondary">
-								<span data-feather="search"></span>
-							</button>
-						</div>
-					</div>
-			    </form>
-			</div>
+			@endcomponent
 
-		</div>
+	    	@component('components.grid-btn-filter')
+			    <a class="dropdown-item" href="{{url()->current()}}/?{!! urlencode ( 'filter[status]' ) !!}=1">Ativos</a>
+			    <a class="dropdown-item" href="{{url()->current()}}/?{!! urlencode ( 'filter[status]' ) !!}=0">Inativos</a>
+			@endcomponent
+
+			@component('components.grid-form-filter-basic-inline',['clean_url' => route('user.index')])
+				
+				<input type="text" name="filter[email]" placeholder="Email" value="{{\Request::input('filter.email')}}" class="form-control border-secondary form-control-sm" />
+				
+				<input type="text" name="filter[nome]" placeholder="Nome" 	value="{{\Request::input('filter.nome')}}"  class="form-control border-secondary form-control-sm" />			
+			@endcomponent
 
 
-		<form class="p-3 bg-light {{ \Request::input('filter') ? '' : 'hidden'}} js-box-filter" action="{{url()->current()}}" method="GET">
-			<p class="h4 font-weight-bold border-bottom">Filtros</p>
+		</div><!-- /card -->
+
+
+
+	    @component('components.grid-form-filter-full')
 
 			<div class="row">
 				<div class="col">
@@ -46,7 +44,7 @@
 				</div>
 				<div class="col">
 					<label>Nome</label>
-					<input type="text" name="filter[nome]" placeholder="Nome" 	value="{{\Request::input('filter.nome')}}"  class="form-control border-secondary form-control-sm" />
+					<input type="text" name="filter[nome]" placeholder="Nome" value="{{\Request::input('filter.nome')}}"  class="form-control border-secondary form-control-sm" />
 				</div>
 				<div class="col">
 					<div class="form-group">
@@ -74,15 +72,10 @@
 				</div>
 			</div>
 
-			<div class="text-right">
-				<a href="{{route('user.index')}}" class="btn bt-default">Limpar</a>
-				<button type="submit" class="btn btn-success"> Filtrar <span data-feather="search"></span> </button>
-			</div>
-
-		</form><!-- filter -->
+		@endcomponent
 
 
- - <img src="{{url('storage/image/P3NwxoQkcbfmPJ4aDP6fDyCgkOghtWmrFVdgnlls.jpeg')}}" alt=""> :
+<!-- <img src="{{url('storage/image/P3NwxoQkcbfmPJ4aDP6fDyCgkOghtWmrFVdgnlls.jpeg')}}" alt=""> : -->
 	    <div class="table-responsive">
 	        <table class="table table-hover table-bordered table-sm mb-0">
 	          	<thead class="thead-light">
@@ -92,9 +85,7 @@
 						</th>
 						<th width="50">ID</th>
 						<th>
-							<a href="{{ link_sort('name') }}">
-								Nome {!! icon_sort('name') !!}
-							</a>
+							<a href="{{ link_sort('name') }}"> Nome {!! icon_sort('name') !!} </a>
 						</th>
 
 						<th>
@@ -141,7 +132,8 @@
 
 	    </div><!-- /table responsive -->
 
-		@include('dashboard.partials.pagination', ['result' => $users])
+		@component('components.grid-pagination', ['result' => $users])
+		@endcomponent
 
 	</div><!-- /card -->
 

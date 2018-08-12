@@ -5,12 +5,15 @@ namespace App\Http\Controllers\Dashboard;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Gate;
 use App\User;
 use App\Role;
 use Hash;
 
 class UserController extends Controller
 {
+
+    use \App\Traits\UploadTrait;
 
     public function __construct()
     {
@@ -24,7 +27,11 @@ class UserController extends Controller
      */
     public function index()
     {
-        // dd( Storage::get('categories/005858201808085b6a6a82ce070.jpeg') );
+
+        if (Gate::denies('user.list')) {
+            abort(403);
+        }
+
         $users = User::
                 callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role', 'status' => 'filter.status' ])
                 ->sortable(['id','asc'])
@@ -32,7 +39,7 @@ class UserController extends Controller
                 ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
                 ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->groupBy('users.id')
-                ->paginate(20);
+                ->paginate(25);
 
         $roles = Role::orderBy('label', 'asc')->get();
 
@@ -46,6 +53,17 @@ class UserController extends Controller
      */
     public function create()
     {
+
+        if (Gate::denies('user.create')) {
+            abort(403);
+        }
+
+        if (\Auth::user()->can('user.list')){
+            echo 'can list';
+        }
+
+
+
         $user = new User;
         $roles = Role::orderBy('label', 'asc')->get();
         $selectedRoles = [];
@@ -60,6 +78,11 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+
+        if (Gate::denies('user.create')) {
+            abort(403);
+        }
+
         $this->validate($request, [
             'name'      => 'required',
             'email'     => 'required|email|unique:users,email',
@@ -93,6 +116,16 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+
+        $user = User::findOrFail($id);
+
+        if (Gate::denies('user.update')) {
+            abort(403);
+        }
+
+        $this->authorize('update', $user);
+
+
         $user = User::findOrFail($id);
         $roles = Role::orderBy('label', 'asc')->get();
 
@@ -112,6 +145,10 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
 
+        if (Gate::denies('user.update')) {
+            abort(403);
+        }
+
         $user = User::findOrFail($id);
 
         $validateRules = [
@@ -126,24 +163,15 @@ class UserController extends Controller
         $data = $this->validate($request, $validateRules);
 
         $user->fill($data);
+        $user = $this->configUpload(['path' => 'carro'])->fillUpload($user,'asdasd');
         $user->save();
         $user->roles()->sync( $request->role );
 
-        $nameFile = null;
 
-        if ($request->hasFile('image') && $request->file('image')->isValid()) {
-
-            $name       = uniqid(date('HisYmd'));
-            $extension  = $request->image->extension();
-            $nameFile   = "{$name}.{$extension}";
-            $upload     = $request->image->storeAs('categories', $nameFile);
-
-            dd($upload);
-        }
-
+        
 
         $request->session()->flash('success', 'Alterado com sucesso!');
-        return redirect()->route('user.index');
+        // return redirect()->route('user.index');
 
     }
 

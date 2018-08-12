@@ -26,7 +26,7 @@
 
 <div class="form-group">
     <label>Imagem</label>
-    <input type="file" name="image" class="form-control">
+    <input type="file" name="file" class="form-control">
 </div>
 
 <div class="form-group">
