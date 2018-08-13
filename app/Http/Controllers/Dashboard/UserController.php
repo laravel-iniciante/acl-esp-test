@@ -163,7 +163,10 @@ class UserController extends Controller
         $data = $this->validate($request, $validateRules);
 
         $user->fill($data);
-        $user = $this->configUpload(['path' => 'carro'])->fillUpload($user,'asdasd');
+
+        $user = $this->configUpload(\Config::get('upload.user_photo'))
+                     ->fillUpload($user,'asdasd');
+
         $user->save();
         $user->roles()->sync( $request->role );
 
