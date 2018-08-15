@@ -14,7 +14,7 @@
 			@component('components.grid-batch-actions')
 
 				@component('components.grid-form-delete', ['action' => route('user.destroy', '')])
-				@endcomponent 
+				@endcomponent
 
 			@endcomponent
 
@@ -24,10 +24,10 @@
 			@endcomponent
 
 			@component('components.grid-form-filter-basic-inline',['clean_url' => route('user.index')])
-				
+
 				<input type="text" name="filter[email]" placeholder="Email" value="{{\Request::input('filter.email')}}" class="form-control border-secondary form-control-sm" />
-				
-				<input type="text" name="filter[nome]" placeholder="Nome" 	value="{{\Request::input('filter.nome')}}"  class="form-control border-secondary form-control-sm" />			
+
+				<input type="text" name="filter[nome]" placeholder="Nome" 	value="{{\Request::input('filter.nome')}}"  class="form-control border-secondary form-control-sm" />
 			@endcomponent
 
 
@@ -45,6 +45,18 @@
 				<div class="col">
 					<label>Nome</label>
 					<input type="text" name="filter[nome]" placeholder="Nome" value="{{\Request::input('filter.nome')}}"  class="form-control border-secondary form-control-sm" />
+				</div>
+				<div class="col">
+					<label>Nome</label>
+					<input type="text" name="nome" placeholder="Nome--" value="{{\Request::input('nome')}}"  class="form-control border-secondary form-control-sm" />
+				</div>
+				<div class="col">
+					<label>Email</label>
+					<input type="text" name="email" placeholder="Email--" value="{{\Request::input('email')}}" class="form-control border-secondary form-control-sm" />
+				</div>
+				<div class="col">
+					<label>null</label>
+					<input type="text" name="remember_token" placeholder="remember_token--" value="{{\Request::input('remember_token')}}" class="form-control border-secondary form-control-sm" />
 				</div>
 				<div class="col">
 					<div class="form-group">

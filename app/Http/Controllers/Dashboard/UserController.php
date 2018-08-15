@@ -28,25 +28,29 @@ class UserController extends Controller
     public function index()
     {
 
-
         $filters = [
-                [
-                    'name'      => 'id',
-                    'operator'  => '=',
-                    'paramName' => 'identificador'
-                ],
-                [
-                    'name'      => 'name',
-                    'operator'  => 'LIKE',
-                    'paramName' => 'nome'
-                ],
 
+                [
+                    'field'     => 'users.name',
+                    'operator'  => '%LIKE',
+                    'where'     => 'orWhere',
+                    'paramName' => 'nome',
+                ],
+                [
+                    'field'     => 'users.email',
+                    'operator'  => '=',
+                    'where'     => 'where',
+                    'paramName' => 'email',
+                ],
+                [
+                    'field'     => 'users.remember_token',
+                    'operator'  => '=',
+                    'where'     => 'whereNull',
+                    'paramName' => 'remember_token',
+                ],
         ];
 
         $users = User::applyFilters($filters)->get();
-
-dd($users);
-
 
 
         // if (Gate::denies('user.list')) {
@@ -54,12 +58,14 @@ dd($users);
         // }
 
         $users = User::
-                callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role', 'status' => 'filter.status' ])
-                ->sortable(['id','asc'])
-                ->select('users.name','users.id','users.status', 'users.email', \DB::raw("group_concat(roles.label SEPARATOR ' - ') as perms"))
+                // callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role', 'status' => 'filter.status' ])
+
+                sortable(['id','asc'])
+                ->select('users.name', 'users.remember_token', 'users.id','users.status', 'users.email', \DB::raw("group_concat(roles.label SEPARATOR ' - ') as perms"))
                 ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
                 ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->groupBy('users.id')
+                ->applyFilters( $filters)
                 ->paginate(25);
 
         $roles = Role::orderBy('label', 'asc')->get();

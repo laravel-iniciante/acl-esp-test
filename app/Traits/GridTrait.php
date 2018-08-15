@@ -54,24 +54,48 @@ trait GridTrait {
     {
         foreach ($filters as $filter) {
 
-            $field 		= $filter['name'];
-            $operator 	= $filter['operator'];
-            $paramName 	= $filter['paramName'];
+            $field 		   = $filter['field'];
+            $operator 	    = ( isset($filter['operator']) && !empty($filter['relation'])) ? strtolower($filter['operator']) : '=' ;
+            $paramName      = $filter['paramName'];
+            $relation       = ( isset($filter['relation']) && !empty($filter['relation'])) ? $filter['relation'] : null ;
+            $logicOperator  = ( isset($filter['where']) && !empty($filter['where'])) ? $filter['where'] : 'orWhere' ;
 
-            $paramValue = \Request::input($paramName);
+            // $paramValue = \Request::input($paramName);
+            $paramValue = \Request::input($paramName);;
+
 
 			if( $paramValue ){
 
-	            $paramValue 	= strtolower($operator) === 'like' ? "%$paramValue%" : $paramValue;
-	            
-	            if(!strpos($filter['name'],'.')) {
+                if($operator == 'like') {
+                   $paramValue ="%$paramValue%";
+                   $operator = 'LIKE';
+                }
 
-	                $query = $query->orWhere($field, $operator, $paramValue);
+                if($operator == '%like') {
+                   $paramValue = "%$paramValue";
+                   $operator = 'LIKE';
+                }
 
-	            }else{
+                if($operator == 'like%') {
+                   $paramValue = "$paramValue%";
+                   $operator = 'LIKE';
+                }
 
-	               list($relation,$field) = explode('.',$filter['name']);
-	               
+	            if( !$relation ) {
+
+                    if(strpos($logicOperator,'In') ){
+                       $query = $query->{$logicOperator}($field, $paramValue);
+                    }else if(strpos($logicOperator,'Null') ){
+                       $query = $query->{$logicOperator}($field);
+                    }else{
+                        $query = $query->{$logicOperator}($field, $operator, $paramValue);
+                    }
+
+
+                }else{
+
+	               list($relation,$field) = explode('.',$field);
+
 	               $query = $query->orWhereHas($relation, function($query) use($field,$operator,$paramValue){
 	                  $query->where($field,$operator,$paramValue);
 	               });
