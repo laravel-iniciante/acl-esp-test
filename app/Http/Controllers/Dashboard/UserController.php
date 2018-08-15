@@ -28,6 +28,27 @@ class UserController extends Controller
     public function index()
     {
 
+
+        $filters = [
+                [
+                    'name'      => 'id',
+                    'operator'  => '=',
+                    'paramName' => 'identificador'
+                ],
+                [
+                    'name'      => 'name',
+                    'operator'  => 'LIKE',
+                    'paramName' => 'nome'
+                ],
+
+        ];
+
+        $users = User::applyFilters($filters)->get();
+
+dd($users);
+
+
+
         // if (Gate::denies('user.list')) {
         //     abort(403);
         // }

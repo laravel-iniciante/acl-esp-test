@@ -50,4 +50,40 @@ trait GridTrait {
 
     }
 
+    public function scopeApplyFilters($query, $filters)
+    {
+        foreach ($filters as $filter) {
+
+            $field 		= $filter['name'];
+            $operator 	= $filter['operator'];
+            $paramName 	= $filter['paramName'];
+
+            $paramValue = \Request::input($paramName);
+
+			if( $paramValue ){
+
+	            $paramValue 	= strtolower($operator) === 'like' ? "%$paramValue%" : $paramValue;
+	            
+	            if(!strpos($filter['name'],'.')) {
+
+	                $query = $query->orWhere($field, $operator, $paramValue);
+
+	            }else{
+
+	               list($relation,$field) = explode('.',$filter['name']);
+	               
+	               $query = $query->orWhereHas($relation, function($query) use($field,$operator,$paramValue){
+	                  $query->where($field,$operator,$paramValue);
+	               });
+
+	            }
+	            //WHERE campo = 'valor' OR campo = 'valor'
+			}
+
+
+        }
+        return $query;
+    }
+
+
 }
