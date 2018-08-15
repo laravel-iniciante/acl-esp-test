@@ -28,9 +28,9 @@ class UserController extends Controller
     public function index()
     {
 
-        if (Gate::denies('user.list')) {
-            abort(403);
-        }
+        // if (Gate::denies('user.list')) {
+        //     abort(403);
+        // }
 
         $users = User::
                 callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role', 'status' => 'filter.status' ])
@@ -171,7 +171,7 @@ class UserController extends Controller
         $user->roles()->sync( $request->role );
 
 
-        
+
 
         $request->session()->flash('success', 'Alterado com sucesso!');
         // return redirect()->route('user.index');
