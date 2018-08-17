@@ -32,22 +32,22 @@ class UserController extends Controller
 
                 [
                     'field'     => 'users.name',
-                    'operator'  => '%LIKE',
-                    'where'     => 'orWhere',
+                    'operator'  => 'like%',
+                    'function'  => 'or',
                     'paramName' => 'nome',
                 ],
-                [
-                    'field'     => 'users.email',
-                    'operator'  => '=',
-                    'where'     => 'where',
-                    'paramName' => 'email',
-                ],
-                [
-                    'field'     => 'users.remember_token',
-                    'operator'  => '=',
-                    'where'     => 'whereNull',
-                    'paramName' => 'remember_token',
-                ],
+                // [
+                //     'field'     => 'users.email',
+                //     'operator'  => '=',
+                //     'function'  => 'where',
+                //     'paramName' => 'email',
+                // ],
+                // [
+                //     'field'     => 'users.remember_token',
+                //     'operator'  => '=',
+                //     'function'  => 'whereNull',
+                //     'paramName' => 'remember_token',
+                // ],
         ];
 
         $users = User::applyFilters($filters)->get();
