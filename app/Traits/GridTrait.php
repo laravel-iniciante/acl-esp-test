@@ -96,15 +96,15 @@ trait GridTrait {
 		            $function = $functions[$function];
 
 		            if( in_array($function, ['where', 'orWhere']) || in_array($function, ['whereDate', 'whereMonth', 'whereDay', 'whereYear', 'whereTime' ]) ){
-						
+
 						$query = $query->{$function}($field, $operator, $paramValue);
-		            
+
 		            }else if( in_array($function, ['whereIn','whereNotIn'] )){
-		            	
+
 		            	$query = $query->{$function}($field, $paramValue);
-		            
-		            }else if( in_array($function, ['null','notnull'] )){
-						
+
+		            }else if( in_array($function, ['whereNull','whereNotNull'] )){
+
 						$query = $query->{$function}($field);
 
 		            }

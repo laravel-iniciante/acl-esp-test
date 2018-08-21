@@ -30,27 +30,27 @@ class UserController extends Controller
 \DB::enableQueryLog();
         $filters = [
 
+                // [
+                //     'field'     => 'users.name',
+                //     'operator'  => '%like%',
+                //     'function'  => 'or',
+                //     'paramName' => 'nome',
+                // ],
                 [
-                    'field'     => 'users.name',
-                    'operator'  => '%like%',
-                    'function'  => 'or', 
-                    'paramName' => 'nome',
-                ],
-                [
-                    'field'     => 'roles.id',
+                    'field'     => 'role_user.role_id',
                     'operator'  => '=',
                     'function'  => 'in',
                     'paramName' => 'role',
                 ],
-                // [
-                //     'field'     => 'users.remember_token',
-                //     'operator'  => '=',
-                //     'function'  => 'whereNull',
-                //     'paramName' => 'remember_token',
-                // ],
+                [
+                    'field'     => 'users.remember_token',
+                    'operator'  => '=',
+                    'function'  => 'null',
+                    'paramName' => 'remember_token',
+                ],
         ];
 
-        $users = User::applyFilters($filters)->get();
+        // $users = User::applyFilters($filters)->get();
 
 
         // if (Gate::denies('user.list')) {
@@ -59,11 +59,11 @@ class UserController extends Controller
 
         $users = User::
                 // callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role', 'status' => 'filter.status' ])
-                
+
                 sortable(['id','asc'])
                 ->select(
                     'users.name',
-                    'users.remember_token', 
+                    'users.remember_token',
                     'users.id','users.status',
                     'users.email',
                     \DB::raw("group_concat(roles.label SEPARATOR ' - ') as perms")
@@ -73,7 +73,7 @@ class UserController extends Controller
                 ->groupBy('users.id')
                 ->applyFilters( $filters )
                 ->paginate(25);
-                
+
         $roles = Role::orderBy('label', 'asc')->get();
 
         return view('dashboard.user.index', compact('users','roles'));
