@@ -52,6 +52,7 @@ trait GridTrait {
 
     public function scopeApplyFilters($query, $filters)
     {
+
         foreach ($filters as $filter) {
 
             $field 		   = $filter['field'];
@@ -63,32 +64,9 @@ trait GridTrait {
             // $paramValue = \Request::input($paramName);
             $paramValue = \Request::input($paramName);;
 
-// ->where('votes', '>', 100)
-// ->orWhere('name', 'John')
-
-// ->whereBetween('votes', [1, 100])->get();
-// ->whereNotBetween('votes', [1, 100])
-
-// ->whereIn('id', [1, 2, 3])
-// ->whereNotIn('id', [1, 2, 3])
-
-// ->whereNull('updated_at')
-// ->whereNotNull('updated_at')
-
-// ->whereDate('created_at', '2016-12-31')
-// ->whereMonth('created_at', '12')
-// ->whereDay('created_at', '31')
-// ->whereYear('created_at', '2016')
-// ->whereTime('created_at', '=', '11:20:45')
-
-// ->whereColumn('first_name', 'last_name') uma coluna é igual a outra
-
-
-
 			if( $paramValue ){
 
-				if( strpos($operator, 'like') >= 0 ){
-					// Fornece: <body text='black'>
+				if( strpos($operator, 'like') != false ){
 					$paramValue = str_replace("like", $paramValue, strtolower($operator));
 					$operator = 'LIKE';
 				}

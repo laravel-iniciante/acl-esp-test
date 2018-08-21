@@ -38,14 +38,16 @@
 	    @component('components.grid-form-filter-full')
 
 			<div class="row">
+			<!--
 				<div class="col">
 					<label>Email</label>
 					<input type="text" name="filter[email]" placeholder="Email" value="{{\Request::input('filter.email')}}" class="form-control border-secondary form-control-sm" />
 				</div>
-				<div class="col">
+ 				<div class="col">
 					<label>Nome</label>
 					<input type="text" name="filter[nome]" placeholder="Nome" value="{{\Request::input('filter.nome')}}"  class="form-control border-secondary form-control-sm" />
-				</div>
+				</div> 
+			-->
 				<div class="col">
 					<label>Nome</label>
 					<input type="text" name="nome" placeholder="Nome--" value="{{\Request::input('nome')}}"  class="form-control border-secondary form-control-sm" />
@@ -67,9 +69,9 @@
 
 					            <input class="form-check-input"
 					            type="checkbox"
-					            name="filter[role][]"
+					            name="role[]"
 					            value="{{$role->id}}"
-					            {{!! checkedFilter($role->id, 'filter.role' ) !!}}
+					            {{!! checkedFilter($role->id, 'role' ) !!}}
 					            >
 					            {{$role->label}}
 					        </label>

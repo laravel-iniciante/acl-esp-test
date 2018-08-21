@@ -27,21 +27,21 @@ class UserController extends Controller
      */
     public function index()
     {
-
+\DB::enableQueryLog();
         $filters = [
 
                 [
                     'field'     => 'users.name',
-                    'operator'  => 'like%',
-                    'function'  => 'or',
+                    'operator'  => '%like%',
+                    'function'  => 'or', 
                     'paramName' => 'nome',
                 ],
-                // [
-                //     'field'     => 'users.email',
-                //     'operator'  => '=',
-                //     'function'  => 'where',
-                //     'paramName' => 'email',
-                // ],
+                [
+                    'field'     => 'roles.id',
+                    'operator'  => '=',
+                    'function'  => 'in',
+                    'paramName' => 'role',
+                ],
                 // [
                 //     'field'     => 'users.remember_token',
                 //     'operator'  => '=',
@@ -59,15 +59,21 @@ class UserController extends Controller
 
         $users = User::
                 // callInputScopes(['name' => 'filter.nome', 'email' => 'filter.email', 'roles' => 'filter.role', 'status' => 'filter.status' ])
-
+                
                 sortable(['id','asc'])
-                ->select('users.name', 'users.remember_token', 'users.id','users.status', 'users.email', \DB::raw("group_concat(roles.label SEPARATOR ' - ') as perms"))
+                ->select(
+                    'users.name',
+                    'users.remember_token', 
+                    'users.id','users.status',
+                    'users.email',
+                    \DB::raw("group_concat(roles.label SEPARATOR ' - ') as perms")
+                )
                 ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
                 ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->groupBy('users.id')
-                ->applyFilters( $filters)
+                ->applyFilters( $filters )
                 ->paginate(25);
-
+                
         $roles = Role::orderBy('label', 'asc')->get();
 
         return view('dashboard.user.index', compact('users','roles'));
