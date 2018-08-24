@@ -71,51 +71,48 @@ trait GridTrait {
 					$operator = 'LIKE';
 				}
 
+                $functions = [
+                    'where'     => 'where',
+                    'or'        => 'orWhere',
+
+                    'date'      => 'whereDate',
+                    'month'     => 'whereMonth',
+                    'day'       => 'whereDay',
+                    'year'      => 'whereYear',
+                    'time'      => 'whereTime',
+
+                    'in'        => 'whereIn',
+                    'notin'     => 'whereNotIn',
+
+                    'null'      => 'whereNull',
+                    'notnull'   => 'whereNotNull',
+
+                    //'between'     => 'whereBetween',
+                    //'notbetween'  => 'whereNotBetween',
+                ];
+
 				if( !$relation ) {
-
-		            $functions = [
-		            	'where' 	=> 'where',
-		            	'or' 		=> 'orWhere',
-
-		            	'date' 		=> 'whereDate',
-		            	'month' 	=> 'whereMonth',
-		            	'day' 		=> 'whereDay',
-		            	'year' 		=> 'whereYear',
-		            	'time' 		=> 'whereTime',
-
-		            	'in' 		=> 'whereIn',
-		            	'notin' 	=> 'whereNotIn',
-
-		            	'null' 		=> 'whereNull',
-		            	'notnull' 	=> 'whereNotNull',
-
-						//'between' 	=> 'whereBetween',
-		            	//'notbetween'	=> 'whereNotBetween',
-		            ];
 
 		            $function = $functions[$function];
 
 		            if( in_array($function, ['where', 'orWhere']) || in_array($function, ['whereDate', 'whereMonth', 'whereDay', 'whereYear', 'whereTime' ]) ){
-
 						$query = $query->{$function}($field, $operator, $paramValue);
-
 		            }else if( in_array($function, ['whereIn','whereNotIn'] )){
-
 		            	$query = $query->{$function}($field, $paramValue);
-
 		            }else if( in_array($function, ['whereNull','whereNotNull'] )){
-
 						$query = $query->{$function}($field);
-
 		            }
 
                 }else{
 
-	               list($relation,$field) = explode('.',$field);
-
-	               $query = $query->orWhereHas($relation, function($query) use($field,$operator,$paramValue){
-	                  $query->where($field,$operator,$paramValue);
-	               });
+                    $query = $query->orWhereHas($relation, function($query) use($field,$operator,$paramValue, $function){
+                    if( in_array($function, ['where', 'orWhere']) || in_array($function, ['whereDate', 'whereMonth', 'whereDay', 'whereYear', 'whereTime' ]) ){
+                        $query = $query->{$function}($field, $operator, $paramValue);
+                    }else if( in_array($function, ['whereIn','whereNotIn'] )){
+                        $query = $query->{$function}($field, $paramValue);
+                    }else if( in_array($function, ['whereNull','whereNotNull'] )){
+                        $query = $query->{$function}($field);
+                    }                    });
 
 	            }
 	            //WHERE campo = 'valor' OR campo = 'valor'
