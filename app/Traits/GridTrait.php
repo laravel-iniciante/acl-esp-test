@@ -26,7 +26,16 @@ trait GridTrait {
         }
     }
 
-    // Autor Thiago Sobrinho
+    /** @author Thiago Sobrinho
+     *   callInputScopes([
+            name' => 'filter.nome', 
+            'email' => 'filter.email', 
+            'roles' => 'filter.role', 
+            'status' => 'filter.status' 
+        ])
+     *
+    */
+    
     public function scopeCallInputScopes($query, $configs = []){
 
         foreach ($configs as $scopeMethodName => $requestKeyName) {

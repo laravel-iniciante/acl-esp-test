@@ -1,0 +1,12 @@
+{
+    "name": "resilient/form",
+    "description": "Make bootstrap 4 admin form easy",
+    "authors": [
+        {
+            "name": "Thiago Sobrinho",
+            "email": "thiago122@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

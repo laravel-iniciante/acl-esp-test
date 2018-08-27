@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Gate;
+use Intervention\Image\ImageManagerStatic as Image;
 use App\User;
 use App\Role;
 use Hash;
@@ -27,32 +28,6 @@ class UserController extends Controller
      */
     public function index()
     {
-\DB::enableQueryLog();
-        $filters = [
-
-                // [
-                //     'field'     => 'users.name',
-                //     'operator'  => '%like%',
-                //     'function'  => 'or',
-                //     'paramName' => 'nome',
-                // ],
-                [
-                    'field'     => 'role_user.role_id',
-                    'operator'  => '=',
-                    'function'  => 'in',
-                    'paramName' => 'role',
-                ],
-                [
-                    'field'     => 'users.remember_token',
-                    'operator'  => '=',
-                    'function'  => 'null',
-                    'paramName' => 'remember_token',
-                ],
-        ];
-
-        // $users = User::applyFilters($filters)->get();
-
-
         // if (Gate::denies('user.list')) {
         //     abort(403);
         // }
@@ -71,7 +46,7 @@ class UserController extends Controller
                 ->leftJoin('role_user', 'role_user.user_id', '=', 'users.id')
                 ->leftJoin('roles', 'roles.id', '=', 'role_user.role_id')
                 ->groupBy('users.id')
-                ->applyFilters( $filters )
+                ->applyFilters( \Config::get('dashboard.user.filter') )
                 ->paginate(25);
 
         $roles = Role::orderBy('label', 'asc')->get();
@@ -165,7 +140,13 @@ class UserController extends Controller
         $selectedRoles = $user->roles()->get()->toArray();
         $selectedRoles = array_pluck($selectedRoles, 'id');
 
-        return view("dashboard.user.edit", compact('user','roles','selectedRoles'));
+        $generos = (object)[
+            ['label' => 'Masculino','value' =>  'm'], 
+            ['label' => 'Feminino', 'value' =>  'f']
+        ];
+
+
+        return view("dashboard.user.edit", compact('user','roles','selectedRoles','generos'));
     }
 
     /**
@@ -197,17 +178,14 @@ class UserController extends Controller
 
         $user->fill($data);
 
-        $user = $this->configUpload(\Config::get('upload.user_photo'))
-                     ->fillUpload($user,'asdasd');
+        $user = $this->configUpload(\Config::get('dashboard.user.user_photo'))
+                     ->fillUpload($user,'uniq');
 
         $user->save();
         $user->roles()->sync( $request->role );
 
-
-
-
         $request->session()->flash('success', 'Alterado com sucesso!');
-        // return redirect()->route('user.index');
+        return redirect()->route('user.index');
 
     }
 

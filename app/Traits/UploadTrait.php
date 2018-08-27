@@ -2,6 +2,7 @@
 
 namespace App\Traits;
 use Illuminate\Support\Facades\Input;
+use Intervention\Image\ImageManagerStatic as Image;
 
 trait UploadTrait {
 
@@ -10,7 +11,10 @@ trait UploadTrait {
         'extensions' => ['jpeg','jpg','png','gif'],
         'path'       => 'images',
         'dbFieldFile'=> 'photo',
+        'thumbs'     => []
     ];
+
+    protected $configThumbs = [];
 
     protected function configUpload( $config = [] )
     {
@@ -32,6 +36,10 @@ trait UploadTrait {
 
         if(isset($config['dbFieldPath'])){
             $this->configUpload['dbFieldPath'] = $config['dbFieldPath'];
+        }
+
+        if(isset($config['thumbs'])){
+            $this->configUpload['thumbs'] = $config['thumbs'];
         }
 
         return $this;
@@ -78,6 +86,8 @@ trait UploadTrait {
             return $model;
         }
 
+        $this->makeThumb($fileData);
+
         $data = [];
 
         $field = $this->configUpload['dbFieldFile'];
@@ -95,14 +105,47 @@ trait UploadTrait {
         return $model;
     }
 
+    protected function makeThumb($fileData){
+
+        $p = \Storage::disk(config('filesystems.default'))->getDriver()->getAdapter()->getPathPrefix();
+
+        if( isset($this->configUpload['thumbs']) ){
+
+            foreach ($this->configUpload['thumbs']['sizes'] as $key => $value) {
+
+                $img = Image::make($p.$this->configUpload['path'].'/'.$fileData['file'])->fit($value[0], $value[1], function ($constraint) {
+                    $constraint->upsize();
+                    $constraint->aspectRatio();
+                });
+            
+                $img->save($p.$this->configUpload['path'].'/'.$key.'_'.$fileData['file']); 
+            }
+
+        }
+
+    }
+
     protected function removeFile($file)
     {
+        $f = $file;
+
         $prefix = \Storage::disk(config('filesystems.default'))->getDriver()->getAdapter()->getPathPrefix();
         $file = $prefix . $this->configUpload['path'] . '/' . $file;
         if (file_exists($file) and !is_dir($file)) {
             unlink($file);
         }
-    }
 
+        if( isset($this->configUpload['thumbs']) ){
+
+            foreach ($this->configUpload['thumbs']['sizes'] as $key => $value) {     
+                $thumbFile = $prefix.$key.'_'.$f;
+                if (file_exists($thumbFile) and !is_dir($thumbFile)) {
+                    unlink($thumbFile);
+                }
+            }
+
+        }
+
+    }
 
 }
