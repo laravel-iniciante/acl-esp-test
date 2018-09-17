@@ -44,8 +44,8 @@ function InputBoolean($model, $errors, $config = []){
 
 	$name 		= isset( $config['name'] ) ? $config['name'] : 'name';
 	$label 		= $config['name'];
-	$modelValue = isset( $config['modelValue'] ) ? $config['modelValue'] : $config['name'];
-	$value 		= old($name, $model->{$modelValue});
+	$modelColunm = isset( $config['modelColunm'] ) ? $config['modelColunm'] : $config['name'];
+	$value 		= old($name, $model->{$modelColunm});
 
     $value = (String) $value;
 
@@ -154,7 +154,7 @@ function select( $model, $errors, $config = []){
 	}
 
 
-	$html = '<select name="'.$name.'" >';
+	$html = '<select name="'.$name.'" class="form-control">';
 	foreach ( $listValues as $item) {
 
 		$selected = '';

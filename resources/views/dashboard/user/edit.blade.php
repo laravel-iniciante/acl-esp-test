@@ -16,7 +16,7 @@
 
 	        	{{csrf_field()}}
 	        	{{method_field('PUT')}}
-			    @include('dashboard.user.form')
+			    @include('dashboard.user._form')
 
 			</div>
 			<div class="card-footer text-right">

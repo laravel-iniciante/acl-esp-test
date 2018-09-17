@@ -19,11 +19,14 @@ Auth::routes();
 
 Route::group([ 'prefix' => 'dashboard', 'namespace' => 'Dashboard'], function(){
     Route::get('/', 'DashboardController@index')->name('dashboard');
+
     Route::resource('user', 'UserController');
     Route::resource('post', 'PostController');
     Route::resource('permission', 'PermissionController');
     Route::resource('role', 'RoleController');
+	Route::get('test', 'TestController@index');
 });
+
 
 Route::get('/home', 'HomeController@index')->name('home');
 

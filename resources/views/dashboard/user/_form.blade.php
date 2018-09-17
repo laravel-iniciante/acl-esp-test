@@ -42,6 +42,15 @@
 
 !!}
 
+{!! 
+    InputBoolean($user, $errors,[
+        'name'          => 'status',
+        'modelColunm'   => 'status', // opcional
+        'defaultValue'   => 'f',   // opcional
+    ]) 
+
+!!}
+
 
 <div class="form-group">
     <label>Senha</label>

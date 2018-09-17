@@ -9,7 +9,62 @@ use Illuminate\Support\Facades\Gate;
 use Intervention\Image\ImageManagerStatic as Image;
 use App\User;
 use App\Role;
+use App\Admin\Form;
 use Hash;
+
+class oop{
+    public static $val;
+
+    public static function add($var){
+        static::$val+=$var;
+        return new static;
+    }
+
+    public static function sub($var){
+        static::$val-=$var;
+        return new static;
+    }
+
+    public static function out(){
+        return static::$val;
+    }
+
+    public static function init($var){
+        static::$val=$var;
+        return new static;      
+    }
+}
+
+// https://codeutopia.net/blog/2009/04/01/using-a-builder-to-construct-complex-classes/
+class FluentMessageBuilder {
+    private $_mail;
+ 
+    private function __construct() {
+        echo  " dd ";
+    }
+ 
+    public static function to($receiver) {
+        $builder = new self;
+        $builder->_setReceiver($receiver);
+        return $builder;
+    }
+ 
+    private function _setReceiver($receiver) {
+        $this->_mail = $receiver ;
+        return $this;
+    }
+ 
+    public function from($sender) {
+        return $this;
+    }
+ 
+    public function createMessage() {
+        return $this->_mail;
+    }
+ 
+  /* maybe some other methods here */
+}
+
 
 class UserController extends Controller
 {
@@ -19,6 +74,13 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    public function teste(Form $form){
+        echo  "teste";
+        echo oop::init(5)->add(2)->out();
+        echo FluentMessageBuilder::to('some@address')->from('other@address')->createMessage();
+        echo FluentMessageBuilder::to('thth@address')->from('other@address')->createMessage();
     }
 
     /**
