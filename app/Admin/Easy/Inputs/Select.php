@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Admin\Easy\Inputs;
 
@@ -13,14 +13,12 @@ class Select extends Input{
 
 	public function options($options){
 		$this->val .= $options;
-		echo $this->val;
 		return $this;
 	}
 
 	public function make(){
-
-		echo 'fffffffffffff';
-
+		return $this->makeTag('select',true, '<option value="nome">lalalal</option><option value="nome">lalalal</option>');
+		// echo $this->attrComp;
 	}
 
 }

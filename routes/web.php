@@ -24,7 +24,8 @@ Route::group([ 'prefix' => 'dashboard', 'namespace' => 'Dashboard'], function(){
     Route::resource('post', 'PostController');
     Route::resource('permission', 'PermissionController');
     Route::resource('role', 'RoleController');
-	Route::get('test', 'TestController@index');
+    Route::get('test', 'TestController@index');
+    Route::post('test/save', 'TestController@save')->name('test_save');
 });
 
 
