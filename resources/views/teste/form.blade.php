@@ -14,10 +14,11 @@
             <div class="card-header bg-transparent"> <b>Alterar usuário</b> </div>
             <div class="card-body">
 
-                {{csrf_field()}}
+            {{csrf_field()}}
 
 
-    {!! $form->text('campo')->model($user, 'name')->attr(['class'=>'form-control'])->make(); !!}
+            {!! $form->text('name')->model($user, 'name')->wrapCol('dfsdf')->attr(['class'=>'form-control'])->make(); !!}
+            {!! $form->text('name')->model($user, 'name')->wrapCol('sss')->attr(['class'=>'form-control'])->make(); !!}
 
 
 

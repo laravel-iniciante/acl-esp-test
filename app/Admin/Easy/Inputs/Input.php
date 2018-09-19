@@ -12,6 +12,9 @@ class Input {
     protected $model = null;
     protected $modelColunm = null;
 
+    protected $wrapHtml  = '{{compiled}}';
+    protected $inputHtml = '';
+
     public function attr($attr = [])
     {
         $this->attr = $attr;
@@ -41,7 +44,6 @@ class Input {
         return $attr;
     }
 
-
     protected function makeTag($tag, $closeTag = true, $content = ''){
 
         $closeBar = ($closeTag) ? '' : '/';
@@ -50,12 +52,20 @@ class Input {
 
         if($this->model){
             $field = ($this->modelColunm) ? $this->modelColunm : $this->name;
-            $value = old($name, $this->model->id);
+            $value = old($name, $this->model->{$field});
         }
 
-        $name = ($this->name) ? $this->name : $this->modelColunm;
+        // pega os erros de validação
+        $errors = \Request::session()->get('errors');
 
-
+        // se existir erro no campo adiciona a class is-invalid
+        if($errors){
+            if( $errors->has($name) ){
+                if(isset($this->attr['class'])){
+                    $this->attr['class'] .= ' is-invalid ';
+                }
+            }
+        }
 
         $html = '';
         $html .= '<';
@@ -75,12 +85,75 @@ class Input {
             $html .= '>';
         }
 
-        return $html;
+        if($errors){
+            if ($errors->has($name)){
+                $html .= '<span class="invalid-feedback">';
+                $html .= '    <strong>'. $errors->first($name) .'</strong>';
+                $html .= '</span>';
+            }
+        }
+
+        $this->inputHtml = $html;
+        return $this;
     }
+
+    public function mergeHtml($compiled)
+    {
+
+        return str_replace("{{compiled}}", $compiled, $this->wrapHtml);
+        // return $this->wrapHtml;
+
+    }
+
+    public function getCompiledHtml(){
+        return $this->mergeHtml($this->inputHtml);
+    }
+
+
 
     public function model($model, $modelColunm = null){
         $this->model = $model;
         $this->modelColunm = $modelColunm;
+        return $this;
+    }
+
+    public function wrapSimple($label = null)
+    {
+
+        $html = '';
+        $html .= '<div class="form-group">';
+
+        if($label){
+            $html .= '<label>'. $label .'</label>';
+        }
+
+        $html .= '{{compiled}}';
+        $html .= '</div>';
+
+        $this->wrapHtml = $html;
+
+        return $this;
+
+    }
+
+    public function wrapCol($label = null, $colCLassLeft = 'col-sm-2', $colClassRight = 'col-sm-10')
+    {
+        $html = '';
+        $html .= '<div class="form-group row">';
+
+        if($label){
+            $html .= '<label class="'. $colCLassLeft .' col-form-label">'.$label.'</label>';
+        }else{
+            $html .= '<label class="'. $colCLassLeft .' col-form-label"></label>';
+        }
+
+        $html .= '    <div class="'. $colClassRight .'">';
+        $html .= '{{compiled}}';
+        $html .= '    </div>';
+        $html .= '</div>';
+
+        $this->wrapHtml = $html;
+
         return $this;
     }
 

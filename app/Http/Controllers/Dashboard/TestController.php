@@ -10,22 +10,20 @@ use App\User;
 class TestController extends Controller
 {
     public function index(Form $form){
-    	// echo $form->text()->make();
-
         $user = User::findOrFail(2);
-
-    	// echo $form->select()
-     //        ->model($user)
-     //        ->name('cidade')
-     //        ->attr(['class'=>'form-control', 'placeholder' => 'Digite Aqui'])
-     //        ->make();
 
         return view('teste.form', compact('user','form'));
 
     }
 
-    public function save(Form $form){
-        // echo $form->text()->make();
+    public function save(Form $form, Request $request){
+
+
+        $this->validate($request, [
+            'name'      => 'required|email|',
+            'email'     => 'required|email|unique:users,email',
+            'password'  => 'required|same:confirm-password',
+        ]);
 
         $user = User::findOrFail(2);
 

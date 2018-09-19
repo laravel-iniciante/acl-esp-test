@@ -4,8 +4,6 @@ namespace App\Admin\Easy\Inputs;
 
 class Text extends Input{
 
-    protected  $val = ' 0 ';
-
     public function get($name = null){
 
         if( $name ){
@@ -16,7 +14,8 @@ class Text extends Input{
     }
 
     public function make(){
-        return $this->type('text')->makeTag('input');
+        $this->label = 'llllllalallalalall';
+        return $this->type('text')->makeTag('input')->getCompiledHtml();
         // echo $this->attrComp;
     }
 
