@@ -17,13 +17,4 @@ class Form
         return $this->builder($method, $params);
     }
 
-    public  function make()
-    {
-        // create an instance of class
-        // QueryMaker and return it
-        return 'passei';
-    }
-
-
-
 }

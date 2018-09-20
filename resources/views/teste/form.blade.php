@@ -19,6 +19,7 @@
 
             {!! $form->text('name')->model($user, 'name')->wrapCol('dfsdf')->attr(['class'=>'form-control'])->make(); !!}
             {!! $form->text('name')->model($user, 'name')->wrapCol('sss')->attr(['class'=>'form-control'])->make(); !!}
+            {!! $form->select('name')->model($user, 'name')->wrapCol('sss')->attr(['class'=>'form-control'])->make(); !!}
 
 
 
