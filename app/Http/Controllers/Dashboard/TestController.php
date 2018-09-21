@@ -18,7 +18,6 @@ class TestController extends Controller
 
     public function save(Form $form, Request $request){
 
-
         $this->validate($request, [
             'name'      => 'required|email|',
             'email'     => 'required|email|unique:users,email',

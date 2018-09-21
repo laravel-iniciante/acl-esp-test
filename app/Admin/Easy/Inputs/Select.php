@@ -14,8 +14,8 @@ class Select extends Input{
     }
 
 	public function make(){
-        $this->label = 'llllllalallalalall';
-        return $this->makeTag('select')->getCompiledHtml();
+        
+        return $this->makeTag('select', true, $this->selectOptions() )->getCompiledHtml();
 	}
 
 }

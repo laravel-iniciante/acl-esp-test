@@ -17,9 +17,19 @@
             {{csrf_field()}}
 
 
-            {!! $form->text('name')->model($user, 'name')->wrapCol('dfsdf')->attr(['class'=>'form-control'])->make(); !!}
-            {!! $form->text('name')->model($user, 'name')->wrapCol('sss')->attr(['class'=>'form-control'])->make(); !!}
-            {!! $form->select('name')->model($user, 'name')->wrapCol('sss')->attr(['class'=>'form-control'])->make(); !!}
+            {!! $form->text('name')->model($user, 'name')->wrapCol('Nome')->attr(['class'=>'form-control'])->make(); !!}
+            {!! $form->text('name')->model($user, 'name')->wrapCol('Nome 2')->attr(['class'=>'form-control'])->make(); !!}
+            {!! 
+                $form->select('teste')->model($user, 'id')
+                                     ->wrapSimple('Opções')
+                                     ->attr(['class'=>'form-control'])
+                                     ->placeholder('Selecione o item')
+                                     ->options([
+                                        ['key'=>'1','value' => 'Thiago'],
+                                        ['key'=>2,'value' => 'Sobrinho']
+                                     ], 'key', 'value')
+                                     ->make(); 
+            !!}
 
 
 

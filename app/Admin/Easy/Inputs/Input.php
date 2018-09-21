@@ -21,6 +21,8 @@ class Input {
 
     protected $options = [];
 
+    protected $placeholder = null;
+
     public function attr($attr = [])
     {
         $this->attr = $attr;
@@ -50,14 +52,14 @@ class Input {
         return $attr;
     }
 
-    protected function options($options, $value, $label)
+    public function options($options, $value = null, $label = null )
     {
-        $options = json_decode($json_encode($options));
+        $options = json_decode(json_encode($options));
 
         foreach ($options as $option) {
             $this->options[] = [
-                'value' => $option[$value],
-                'label' => $option[$label],
+                $option->{$value},
+                $option->{$label}
             ];
         }
 
@@ -159,44 +161,39 @@ class Input {
         return $this;
     }
 
-    function select( $model, $errors, $config = []){
+    protected function selectOptions(){
+        $html = '';
+        
 
-        $name           = isset( $config['name'] ) ? $config['name'] : 'name';
-        $modelColunm    = isset( $config['modelColunm'] ) ? $config['modelColunm'] : $name;
-        $defaultValue   = isset( $config['defaultValue'] ) ? $config['defaultValue'] : null;
-
-        $listValues     = isset( $config['listValue'] ) ? $config['listValue'] : [];
-        $listValueKeys = $config['listValueKeys'];
-
-        $listValues = json_decode(json_encode($listValues));
-
-        $value = old($name, $model->{$modelColunm});
-
-        if(! $value && $defaultValue){
-            $value = $defaultValue;
+        if( $this->placeholder ){
+            $html .= '<option>' . $this->placeholder .'<options>';
         }
 
+        $value = $this->getValue();
+        
+        // dd( $value );
 
-        $html = '<select name="'.$name.'" class="form-control">';
-        foreach ( $listValues as $item) {
-
+        foreach ( $this->options as $item) {
+            
             $selected = '';
-
-            if( $item->{$listValueKeys[1]} == $value){
+            if( $item[0] == $value){
                 $selected = ' selected="selected" ';
             }
-
-            $html .= '<option value="'.$item->{$listValueKeys[1]}.'" '.$selected.'>';
-            $html .= $item->{$listValueKeys[0]};
+            
+            $html .= '<option value="'.$item[0].'" '.$selected.'>';
+            $html .= $item[1];
             $html .= '</option>';
 
-        };
-        $html .= '</select>';
+        }
 
         return $html;
     }
 
-
+    public function placeholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
+        return $this;
+    }
 
     public function mergeHtml($compiled)
     {
@@ -206,8 +203,6 @@ class Input {
     public function getCompiledHtml(){
         return $this->mergeHtml($this->inputHtml);
     }
-
-
 
     public function model($model, $modelColunm = null){
         $this->model = $model;
