@@ -17,20 +17,18 @@
             {{csrf_field()}}
 
 
-            {!! $form->text('name')->model($user, 'name')->wrapCol('Nome')->attr(['class'=>'form-control'])->make(); !!}
-            {!! $form->text('name')->model($user, 'name')->wrapCol('Nome 2')->attr(['class'=>'form-control'])->make(); !!}
-            {!! 
-                $form->select('teste')->model($user, 'id')
-                                     ->wrapSimple('Opções')
-                                     ->attr(['class'=>'form-control'])
-                                     ->placeholder('Selecione o item')
-                                     ->options([
-                                        ['key'=>'1','value' => 'Thiago'],
-                                        ['key'=>2,'value' => 'Sobrinho']
-                                     ], 'key', 'value')
-                                     ->make(); 
-            !!}
+            
 
+<hr>
+
+            {!! 
+                $form->checkbox('status')
+                    ->wrapCol(' Ativo ')
+                    ->value(1)
+                    ->model($user, 'status')
+                    ->make(); 
+            !!}
+<hr>
 
 
 

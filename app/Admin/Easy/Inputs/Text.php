@@ -14,8 +14,12 @@ class Text extends Input{
     }
 
     public function make(){
-        $this->label = 'llllllalallalalall';
-        return $this->type('text')->makeTag('input')->getCompiledHtml();
+
+        return $this->type('text')
+                    ->attrName()
+                    ->attrValue()
+                    ->makeTag('input')
+                    ->getCompiledHtml();
 
     }
 

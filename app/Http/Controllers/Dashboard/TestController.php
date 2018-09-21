@@ -22,6 +22,7 @@ class TestController extends Controller
             'name'      => 'required|email|',
             'email'     => 'required|email|unique:users,email',
             'password'  => 'required|same:confirm-password',
+            'status'    => 'required',
         ]);
 
         $user = User::findOrFail(2);

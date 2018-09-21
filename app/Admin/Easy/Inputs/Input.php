@@ -37,11 +37,11 @@ class Input {
 
     public function type($type)
     {
-        $this->type = $type;
+        $this->attr['type'] = $type;
         return $this;
     }
 
-    protected function compileAttr()
+    protected function compileAtributes()
     {
         $attr = '';
 
@@ -103,18 +103,39 @@ class Input {
         return $html;
     }
 
-    protected function getName()
-    {
-        return ($this->name) ? $this->name : $this->modelColunm;
-    }
 
     protected function determinateModelField()
     {
         return ($this->modelColunm) ? $this->modelColunm : $this->name;
     }
 
+    // ---------------------------------------------------
+    // NAME
+    // ---------------------------------------------------
+
+    protected function attrName()
+    {
+        $this->attr['name'] =  $this->getName(); 
+        return $this;
+    }
+
+    protected function getName()
+    {
+        return ($this->name) ? $this->name : $this->modelColunm;
+    }
+
+    // ---------------------------------------------------
+    // VALUE
+    // ---------------------------------------------------
+
+    public function value($value){
+        $this->attr['value'] = $value; 
+        return $this;
+    }
+
     protected function getValue()
     {
+        
         if($this->model){
             return  old($this->getName(), $this->model->{$this->determinateModelField()});
         }
@@ -122,6 +143,33 @@ class Input {
         return false;
     }
 
+    protected function attrValue()
+    {
+        $value = $this->getValue();
+        if( $value ){
+            $this->attr['value'] = $value; 
+        }
+
+        return $this;
+    }
+
+    protected function isChecked()
+    {
+
+        if( isset($this->attr['value'])){
+            if( $this->attr['value'] == old($this->getName())  ){
+                $this->attr['checked'] = ' ckecked '; 
+            }
+        }
+        return $this;
+    }
+
+
+    // ---------------------------------------------------
+    // TYPE
+    // ---------------------------------------------------
+
+    
     protected function makeTag($tag, $closeTag = true, $content = '')
     {
 
@@ -129,22 +177,12 @@ class Input {
 
         $closeBar = ($closeTag) ? '' : '/';
 
-        $name = $this->getName();
-
-        $value = $this->getValue();
-
         $html = '';
         $html .= '<';
         $html .= $tag;
-        $html .= $this->compileAttr();
+        $html .= $this->compileAtributes();
+        
         $html .= $closeBar;
-        $html .= ($this->type) ? ' type="'. $this->type .'" ' : '';
-        $html .= ' name="'. $name .'" ';
-
-        if(!in_array($tag, $this->notShowValueProperty)){
-            $html .= $value ? ' value="'. $value .'" ' : '';
-        }
-
         $html .= '>';
 
         $html .= $content;
@@ -164,7 +202,6 @@ class Input {
     protected function selectOptions(){
         $html = '';
         
-
         if( $this->placeholder ){
             $html .= '<option>' . $this->placeholder .'<options>';
         }
