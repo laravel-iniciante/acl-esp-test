@@ -115,7 +115,7 @@ class Input {
 
     protected function attrName()
     {
-        $this->attr['name'] =  $this->getName(); 
+        $this->attr['name'] =  $this->getName();
         return $this;
     }
 
@@ -129,13 +129,13 @@ class Input {
     // ---------------------------------------------------
 
     public function value($value){
-        $this->attr['value'] = $value; 
+        $this->attr['value'] = $value;
         return $this;
     }
 
     protected function getValue()
     {
-        
+
         if($this->model){
             return  old($this->getName(), $this->model->{$this->determinateModelField()});
         }
@@ -147,7 +147,7 @@ class Input {
     {
         $value = $this->getValue();
         if( $value ){
-            $this->attr['value'] = $value; 
+            $this->attr['value'] = $value;
         }
 
         return $this;
@@ -158,7 +158,7 @@ class Input {
 
         if( isset($this->attr['value'])){
             if( $this->attr['value'] == old($this->getName())  ){
-                $this->attr['checked'] = ' ckecked '; 
+                $this->attr['checked'] = ' ckecked ';
             }
         }
         return $this;
@@ -169,7 +169,7 @@ class Input {
     // TYPE
     // ---------------------------------------------------
 
-    
+
     protected function makeTag($tag, $closeTag = true, $content = '')
     {
 
@@ -181,7 +181,7 @@ class Input {
         $html .= '<';
         $html .= $tag;
         $html .= $this->compileAtributes();
-        
+
         $html .= $closeBar;
         $html .= '>';
 
@@ -201,22 +201,22 @@ class Input {
 
     protected function selectOptions(){
         $html = '';
-        
+
         if( $this->placeholder ){
             $html .= '<option>' . $this->placeholder .'<options>';
         }
 
         $value = $this->getValue();
-        
+
         // dd( $value );
 
         foreach ( $this->options as $item) {
-            
+
             $selected = '';
             if( $item[0] == $value){
                 $selected = ' selected="selected" ';
             }
-            
+
             $html .= '<option value="'.$item[0].'" '.$selected.'>';
             $html .= $item[1];
             $html .= '</option>';
@@ -225,6 +225,7 @@ class Input {
 
         return $html;
     }
+
 
     public function placeholder($placeholder)
     {
