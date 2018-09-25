@@ -95,7 +95,7 @@ class Input {
         $html = '';
 
         if ($this->firstFieldError){
-            $html .= '<span class="invalid-feedback">';
+            $html .= '<span class="invalid-feedback d-block">';
             $html .= '    <strong>'. $this->firstFieldError .'</strong>';
             $html .= '</span>';
         }

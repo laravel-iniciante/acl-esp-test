@@ -16,12 +16,30 @@
 
             {{csrf_field()}}
 
+<hr>
+
+
+            {!!
+                $form->checkboxList('testecheck')
+                                    ->model($user, 'status')
+                                    ->checkedValues([5,2])
+                                    ->options([
+                                        ['key'=>'1','value' => 'Thiago'],
+                                        ['key'=>2,'value' => 'Júnior'],
+                                        ['key'=>3,'value' => 'Pedro'],
+                                        ['key'=>4,'value' => 'Andersonn'],
+                                        ['key'=>5,'value' => 'Guilherme'],
+                                    ], 'key', 'value')
+                                    ->make();
+            !!}
+
+
 
             {!! $form->text('name')->model($user, 'name')->wrapCol('Nome')->attr(['class'=>'form-control'])->make(); !!}
             {!! $form->text('name')->model($user, 'name')->wrapCol('sss')->attr(['class'=>'form-control'])->make(); !!}
 
             {!!
-                $form->select('teste')->model($user, 'id')
+                $form->select('testwe')->model($user, 'id')
                                      ->wrapSimple('Opções')
                                      ->attr(['class'=>'form-control'])
                                      ->placeholder('Selecione o item')
@@ -33,18 +51,16 @@
             !!}
 
 <hr>
-
             {!!
-                $form->radio('testeradio')->model($user, 'status')
-                                     ->options([
-                                        ['key'=>'1','value' => 'Thiago'],
-                                        ['key'=>2,'value' => 'Sobrinho']
-                                     ], 'key', 'value')
-                                     ->make();
+                $form->radio('testeradio')
+                            ->model($user, 'status')
+                            ->options([
+                                ['key'=>'1','value' => 'Thiago'],
+                                ['key'=>2,'value' => 'Sobrinho']
+                            ], 'key', 'value')
+                            ->make();
             !!}
-
 <hr>
-
             {!!
                 $form->checkbox('status')
                     ->wrapCol(' Ativo ')

@@ -11,8 +11,8 @@ class TestController extends Controller
 {
     public function index(Form $form){
         $user = User::findOrFail(2);
-
-        return view('teste.form', compact('user','form'));
+        $checked = [5,2];
+        return view('teste.form', compact('user','form','checked'));
 
     }
 
@@ -23,11 +23,12 @@ class TestController extends Controller
             'email'     => 'required|email|unique:users,email',
             'password'  => 'required|same:confirm-password',
             'status'    => 'required',
+            'testecheck'=> 'required',
         ]);
 
         $user = User::findOrFail(2);
-
-        return view('teste.form', compact('user','form'));
+        $checked = [5,2];
+        return view('teste.form', compact('user','form','checked'));
 
     }
 
