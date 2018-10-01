@@ -11,6 +11,10 @@
 
             {{csrf_field()}}
 
+            Checkbox values aqui >>><br>
+            {{old('users')}}
+            <<<<<br><br>
+
 
 			@foreach ($users as $user)
 
@@ -18,10 +22,10 @@
 					<input type="checkbox" name="users[]" value="{{$user['id']}}" checked="checked">
 				@else
 					<input type="checkbox" name="users[]" value="{{$user['id']}}">
-				@endif 
+				@endif
 
 			    {{$user['nome']}} <br>
-			    
+
 			@endforeach
 
 
