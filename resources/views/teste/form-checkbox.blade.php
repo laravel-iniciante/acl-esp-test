@@ -13,6 +13,11 @@
 
             Checkbox values aqui >>><br>
             {{old('users')}}
+
+            @php
+            var_dump(old('users'));
+            @endphp
+
             <<<<<br><br>
 
 
