@@ -26,6 +26,10 @@ Route::group([ 'prefix' => 'dashboard', 'namespace' => 'Dashboard'], function(){
     Route::resource('role', 'RoleController');
     Route::get('test', 'TestController@index');
     Route::post('test/save', 'TestController@save')->name('test_save');
+
+    Route::get('test/checkbox', 'TestController@checkbox');
+    Route::post('test/saveCheckbox', 'TestController@saveCheckbox')->name('test_save');
+
 });
 
 

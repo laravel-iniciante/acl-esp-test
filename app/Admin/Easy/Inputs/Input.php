@@ -89,6 +89,14 @@ class Input {
         return $this;
     }
 
+    protected function hasError()
+    {
+        if($this->firstFieldError){
+            return true;
+        }
+        return false;
+    }
+
     protected function errorMessage()
     {
 

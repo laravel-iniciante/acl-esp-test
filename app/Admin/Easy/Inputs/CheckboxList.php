@@ -66,53 +66,38 @@ class CheckboxList extends Input{
         $html = '';
 
         $name = $this->getName();
+        $this->configErrors();
 
+        if($this->hasError()){
+            $values = old($name);
+        }else{
+            $values = \Request::input($name);
 
-        $values = $this->checkedValues;
+            // dd(\Request::all());
+            // dd(\Request::input());
 
-        print_r(old($name, $this->checkedValues));
-        print_r(\Request::old($name, $this->checkedValues));
+            // dd( $values );
+            // dd(old($name));
+            if( ! $values ){
+                $values = $this->checkedValues;
+            }else{
 
-        // dd($values);
-
-        // $a = \Request::old($name, $this->checkedValues);
-
-        // dd($a);
-
-        $has_error = null;
-        $errors = \Request::session()->get('errors');
-        if($errors){
-            if( $errors->has($name) ){
-                $has_error = old($name) == null ? [] : old($name);
             }
+  
         }
 
-        // $values = [];
+        // dd(old($name), $this->checkedValues);
 
-
-
-        // in_array($item[0], old($name, $this->checkedValues) )? ' checked="checked" ' : '';
-
-
-// http://localhost:8079/laravel-iniciante/acl-especializati/public/dashboard/test
-
+        if( $values == null ){
+            $value = [];
+        }
 
         foreach ( $this->options as $item) {
 
             $checked = '';
-            if( in_array($item[0], $values) ){
-                $checked = ' checked="checked" ';
-            }
 
-            $checked = '';
-            if(is_array(old($name))){
-                if(in_array($item[0], old($name))){
-                    $checked = ' checked="checked" ';
-                }
-            }else{
-                if( in_array($item[0], $this->checkedValues) ){
-                    $checked = ' checked="checked" ';
-                }
+            if( $values && in_array($item[0], $values) ){
+                $checked = ' checked="checked" ';
             }
 
             $this->arrayCheckboxProp[] = [
