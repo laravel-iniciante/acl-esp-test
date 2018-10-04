@@ -11,25 +11,26 @@
 
             {{csrf_field()}}
 
-            Checkbox values aqui >>><br>
-            {{old('users')}}
 
             @php
-            var_dump(old('users'));
-            @endphp
+            if($errors->all()){
+                $values = old('users',[]);
+            }else{
+                $values = $default;
+            }
 
-            <<<<<br><br>
+            @endphp
 
 
 			@foreach ($users as $user)
 
-				@if( in_array($user['id'], old('users', $default)) )
+				@if( in_array($user['id'], $values ) )
 					<input type="checkbox" name="users[]" value="{{$user['id']}}" checked="checked">
 				@else
 					<input type="checkbox" name="users[]" value="{{$user['id']}}">
 				@endif
 
-			    {{$user['nome']}} <br>
+			    {{$user['nome']}} s<br>
 
 			@endforeach
 

@@ -48,8 +48,11 @@ class TestController extends Controller
     }
 
     public function saveCheckbox(Request $request){
+        // print_r($_POST);
+        // dd($request);
 
         $this->validate($request, [
+            'name'=> 'required',
             'users'=> 'required',
         ]);
 
